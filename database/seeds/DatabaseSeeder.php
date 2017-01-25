@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(HasRolesSeeder::class);
         $this->call(QuestionsForSeeder::class);
         $this->call(GlobalVariablesSeeder::class);
-
+        $this->call(GroupsTableSeeder::class);
+        $this->call(QuestionsTableSeeder::class);
+        $this->call(GroupsQuestionsSeeder::class);
     }
 }

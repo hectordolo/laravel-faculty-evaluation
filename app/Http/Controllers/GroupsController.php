@@ -67,8 +67,7 @@ class GroupsController extends Controller
 
             $group = Groups::create($request->all());
 
-            flash('The question group: '.isset($group->name)?$group->name:$group->name.' is successfully added.', 'success');
-            return redirect()->route('groups.index');
+            return redirect(route('groups.index'))->withSuccess('The group: '.$group->name.' is successfully added.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -80,11 +79,10 @@ class GroupsController extends Controller
 
         if($auth_user->ability('system-administrator','questions-group-update')){
 
-            $old = $group;
+            $group = $group;
             $group->update($request->all());
 
-            flash('The question group: '.isset($old->name)?$old->name:$old->name.' is successfully updated.', 'success');
-            return redirect()->route('groups.index');
+            return redirect(route('groups.index'))->withSuccess('The group: '.$group->name.' is successfully updated.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -95,11 +93,11 @@ class GroupsController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator','questions-group-delete')){
-            $old = $group;
+            $group = $group;
             $group->delete();
 
-            flash('The question group: '.isset($group->name)?$group->name:$group->name.' is successfully deleted.', 'danger');
-            return redirect()->route('groups.index');
+            return redirect(route('groups.index'))->withSuccess('The group: '.$group->name.' is successfully deleted.');
+
         }else{
             return redirect()->route('four.zero.five');
         }

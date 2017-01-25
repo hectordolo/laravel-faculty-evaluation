@@ -12,7 +12,7 @@
 
     <a href="{{ route('global_variables.add') }}" type="button" class="btn btn-sm btn-success">Add Variable</a>
 
-    <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right top_search">
+    <div class="col-lg-4 form-group pull-right top_search">
         {!! Form::open(['method' => 'GET', 'route' => 'global_variables.search']) !!}
         <div class="input-group">
             {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search for...']) !!}

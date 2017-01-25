@@ -35,7 +35,7 @@
                         <th class="column-title" style="width: 5%">Priority</th>
                         <th class="column-title">Group For </th>
                         <th class="column-title" style="width: 5%">Active</th>
-                        <th class="column-title" style="width: 10%">Action</th>
+                        <th class="column-title" style="width: 15%">Action</th>
                     </tr>
                     </thead>
 
@@ -49,6 +49,7 @@
                             <td class=" ">{{isset($group->questions_for->name)?$group->questions_for->name:''}}</td>
                             <td class=" ">{{isset($group->active)?$group->active==1?'Yes':'No':''}}</td>
                             <td>
+                                <a href="{{route('groups_questions.index', [$group->id])}}" title="Questions" class="btn btn-default btn-sm"><i class="fa fa-question-circle"></i></a>
                                 <a href="{{route('groups.edit', [$group->id])}}" title="Edit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></a>
                                 <a type="button" class="btn btn-default btn-sm" title="Delete Group" data-toggle="modal" data-target="#deleteModal{{ $group->id }}"><i class="fa fa-trash"></i></a>
                                 <div id="deleteModal{{ $group->id }}" class="modal fade" role="dialog">

@@ -50,7 +50,7 @@ class QuestionsForController extends Controller
         if($auth_user->ability('system-administrator','questions-for-update')){
 
             $for = $for;
-            return view('pages.questions.edit', compact('for'));
+            return view('pages.questions_for.edit', compact('for'));
 
         }else{
             return redirect()->route('four.zero.five');
@@ -63,8 +63,7 @@ class QuestionsForController extends Controller
         if($auth_user->ability('system-administrator','questions-for-create')){
             $question_for = QuestionsFor::create($request->all());
 
-            flash('The question for: '.isset($question_for->name)?$question_for->name:$question_for->name.' is successfully added.', 'success');
-            return redirect()->route('for.index');
+            return redirect(route('for.index'))->withSuccess('The question for: '.$question_for->name.' is successfully added.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -75,11 +74,11 @@ class QuestionsForController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator','questions-update')){
-            $old = $for;
+
+            $for = $for;
             $for->update($request->all());
 
-            flash('The question for: '.isset($for->name)?$for->name:$for->name.' is successfully updated.', 'success');
-            return redirect()->route('questions.index');
+            return redirect(route('for.index'))->withSuccess('The question for: '.$for->name.' is successfully updated.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -90,11 +89,11 @@ class QuestionsForController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator','questions-delete')){
-            $old = $for;
+
+            $for = $for;
             $for->delete();
 
-            flash('The question for: '.isset($for->name)?$for->name:$for->name.' is successfully deleted.', 'danger');
-            return redirect()->route('questions_for.index');
+            return redirect(route('for.index'))->withSuccess('The question for: '.$for->name.' is successfully deleted.');
         }else{
             return redirect()->route('four.zero.five');
         }

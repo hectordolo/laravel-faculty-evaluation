@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Requests\GlobalVariablesRequest;
 use Illuminate\Http\Request;
 use App\Models\GlobalVariables;
+use Illuminate\Support\Facades\Session;
 
 use Auth;
 
@@ -15,7 +16,7 @@ class GlobalVariablesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index(Request $request){
 
         $auth_user = Auth::user();
 
@@ -50,6 +51,7 @@ class GlobalVariablesController extends Controller
         if($auth_user->hasRole('system-administrator')){
 
             $global_variable = $global_variable;
+
             return view('pages.global_variables.edit', compact('global_variable'));
 
         }else{
@@ -64,8 +66,7 @@ class GlobalVariablesController extends Controller
 
             $global_variable = GlobalVariables::create($request->all());
 
-            flash('The global variable: '.isset($global_variable->name)?$global_variable->name:$global_variable->name.' is successfully added.', 'success');
-            return redirect()->route('global_variables.index');
+            return redirect(route('global_variables.index'))->withSuccess('The global variable: '.$global_variable->name.' is successfully added.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -80,8 +81,8 @@ class GlobalVariablesController extends Controller
             $old = $global_variable;
             $global_variable->update($request->all());
 
-            flash('The global variable: '.isset($old->name)?$old->name:$old->name.' is successfully updated.', 'success');
-            return redirect()->route('global_variables.index');
+            return redirect(route('global_variables.index'))->withSuccess('The global variable: '.$global_variable->name.' is successfully updated.');
+
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -92,11 +93,12 @@ class GlobalVariablesController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->hasRole('system-administrator')){
-            $old = $global_variable;
+
+            $global_variable = $global_variable;
             $global_variable->delete();
 
-            flash('The global variable: '.isset($old->name)?$old->name:$old->name.' is successfully deleted.', 'danger');
-            return redirect()->route('global_variables.index');
+            return redirect(route('global_variables.index'))->withSuccess('The global variable: '.$global_variable->name.' is deleted.');
+
         }else{
             return redirect()->route('four.zero.five');
         }

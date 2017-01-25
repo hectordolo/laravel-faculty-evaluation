@@ -23,10 +23,25 @@ class QuestionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:255',
-            'for_id' => 'required|max:15',
-            'active' => 'max:2'
-        ];
+
+        switch($this->method())
+        {
+            case 'POST':
+            {
+                return [
+                    'name' => 'required|max:25|unique:questions,name',
+                    'for_id' => 'required|max:15',
+                    'active' => 'max:2'
+                ];
+            }
+            case 'PATCH':
+            {
+                return [
+                    'name' => 'required|max:25|unique:questions,name,'. $this->segment(3),
+                    'for_id' => 'required|max:15',
+                    'active' => 'max:2'
+                ];
+            }
+        }
     }
 }

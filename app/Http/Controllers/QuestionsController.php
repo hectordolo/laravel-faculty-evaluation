@@ -67,8 +67,7 @@ class QuestionsController extends Controller
         if($auth_user->ability('system-administrator','questions-create')){
             $question = Questions::create($request->all());
 
-            flash('The question: '.isset($question->name)?$question->name:$question->name.' is successfully added.', 'success');
-            return redirect()->route('questions.index');
+            return redirect(route('questions.index'))->withSuccess('The question: '.$question->name.' is successfully added.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -82,8 +81,7 @@ class QuestionsController extends Controller
             $old = $question;
             $question->update($request->all());
 
-            flash('The question: '.isset($question->name)?$question->name:$question->name.' is successfully updated.', 'success');
-            return redirect()->route('questions.index');
+            return redirect(route('questions.index'))->withSuccess('The question: '.$question->name.' is successfully updated.');
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -97,8 +95,7 @@ class QuestionsController extends Controller
             $old = $question;
             $question->delete();
 
-            flash('The question: '.isset($question->name)?$question->name:$question->name.' is successfully deleted.', 'danger');
-            return redirect()->route('questions.index');
+            return redirect(route('questions.index'))->withSuccess('The question: '.$question->name.' is successfully deleted.');
         }else{
             return redirect()->route('four.zero.five');
         }

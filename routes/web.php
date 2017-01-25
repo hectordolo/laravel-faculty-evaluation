@@ -80,3 +80,10 @@ Route::group(['prefix' => 'global'], function () {
     Route::patch('/patch/{global_variable}',['as' => 'global_variables.update','uses' => 'GlobalVariablesController@update']);
     Route::delete('/delete/{global_variable}',['as' => 'global_variables.destroy','uses' => 'GlobalVariablesController@destroy']);
 });
+
+Route::group(['prefix' => 'groups_questions'], function () {
+    Route::get('/{group_id}', ['as' => 'groups_questions.index','uses' => 'GroupsQuestionsController@index']);
+    Route::get('/add/{group_id}', ['as' => 'groups_questions.add','uses' => 'GroupsQuestionsController@add']);
+    Route::post('/store',['as' => 'groups_questions.store','uses' => 'GroupsQuestionsController@store']);
+    Route::delete('/delete/{group_question}',['as' => 'groups_questions.destroy','uses' => 'GroupsQuestionsController@destroy']);
+});

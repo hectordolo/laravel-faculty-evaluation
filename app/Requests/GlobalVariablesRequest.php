@@ -23,9 +23,22 @@ class GlobalVariablesRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|max:25',
-            'value' => 'required|max:5'
-        ];
+        switch($this->method())
+        {
+            case 'POST':
+            {
+                return [
+                    'name' => 'required|max:25|unique:global_variables,name',
+                    'value' => 'required|max:5'
+                ];
+            }
+            case 'PATCH':
+            {
+                return [
+                    'name' => 'required|max:25|unique:global_variables,name,'. $this->segment(3),
+                    'value' => 'required|max:5'
+                ];
+            }
+        }
     }
 }
