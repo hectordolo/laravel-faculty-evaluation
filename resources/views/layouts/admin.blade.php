@@ -162,7 +162,7 @@
             <h3 class="page-header">@yield('page-header')</h3>
         </div>
     </div>
-
+    @include('flash::message')
     @yield('page-content')
 
 </div>
