@@ -87,3 +87,10 @@ Route::group(['prefix' => 'groups_questions'], function () {
     Route::post('/store',['as' => 'groups_questions.store','uses' => 'GroupsQuestionsController@store']);
     Route::delete('/delete/{group_question}',['as' => 'groups_questions.destroy','uses' => 'GroupsQuestionsController@destroy']);
 });
+
+Route::group(['prefix' => 'migrate_records'], function () {
+    Route::get('/', ['as' => 'migrate_records.index','uses' => 'MigrateRecordsController@index']);
+    Route::get('/migrate', ['as' => 'migrate_records.migrate','uses' => 'MigrateRecordsController@migrate']);
+    Route::get('/search', ['as' => 'migrate_records.search','uses' => 'MigrateRecordsController@search']);
+    Route::delete('/delete/{record}',['as' => 'migrate_records.destroy','uses' => 'MigrateRecordsController@destroy']);
+});

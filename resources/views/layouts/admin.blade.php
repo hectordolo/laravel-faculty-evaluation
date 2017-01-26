@@ -142,6 +142,17 @@
                     </li>
                 @endrole
 
+                @role('system-administrator')
+                    <li><a href="#"><i class="fa fa-gears"></i> Settings <span class="fa arrow"></span></a>
+
+                        <ul class="nav nav-second-level">
+
+                            <li><a href="{{route('migrate_records.index')}}"> Migrate Records</a></li>
+
+                        </ul>
+                    </li>
+                @endrole
+
             </ul>
         </div>
     </div>

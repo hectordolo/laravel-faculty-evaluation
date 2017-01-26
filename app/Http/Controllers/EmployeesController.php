@@ -36,11 +36,11 @@ class EmployeesController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator, users-manager','users-delete')){
-            $old = $employee;
+            $employee = $employee;
             $employee->delete();
 
-            flash('The employee: '.isset($employee->last_name)?$employee->last_name.', '.$employee->first_name:''.' is successfully deleted.', 'danger');
-            return redirect()->route('employees.index');
+            return redirect(route('employees.index'))->withSuccess('The employee: '.$employee->last_name.' is successfully deleted.');
+
         }else{
             return redirect()->route('four.zero.five');
         }
