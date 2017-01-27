@@ -41,6 +41,12 @@ Route::group(['prefix' => 'employees'], function () {
     Route::delete('/delete/{employee}',['as' => 'employees.destroy','uses' => 'EmployeesController@destroy']);
 });
 
+Route::group(['prefix' => 'students'], function () {
+    Route::get('/', ['as' => 'students.index','uses' => 'StudentsController@index']);
+    Route::get('/search', ['as' => 'students.search','uses' => 'StudentsController@search']);
+    Route::delete('/delete/{student}',['as' => 'students.destroy','uses' => 'StudentsController@destroy']);
+});
+
 Route::group(['prefix' => 'questions'], function () {
     Route::get('/', ['as' => 'questions.index','uses' => 'QuestionsController@index']);
     Route::get('/add', ['as' => 'questions.add','uses' => 'QuestionsController@add']);

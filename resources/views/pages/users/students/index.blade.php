@@ -41,7 +41,7 @@
                     @foreach($students as $key=>$student)
                         <tr>
                             <td class=" ">{{$key+1}}</td>
-                            <td class=" ">{{isset($student->student_id)?$student->student_id:''}}</td>
+                            <td class=" ">{{isset($student->sjc_id)?$student->sjc_id:''}}</td>
                             <td class=" ">{{isset($student->last_name)?$student->last_name:''}}</td>
                             <td class=" ">{{isset($student->first_name)?$student->first_name:''}}</td>
                             <td class=" ">{{isset($student->school_code)?$student->school_code:''}}</td>
@@ -55,11 +55,11 @@
                                                 <h4 class="modal-title">Confirm Delete</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure you want to delete {{isset($employee->username)?'the user with username: '.$employee->username.'?':'this user?'}}</p>
+                                                <p>Are you sure you want to delete {{isset($student->username)?'the user with username: '.$student->username.'?':'this user?'}}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                {!! Form::open(['route' => ['employees.destroy', $employee->id], 'method' => 'delete']) !!}
+                                                {!! Form::open(['route' => ['students.destroy', $student->id], 'method' => 'delete']) !!}
                                                 {!! Form::submit('Yes', ['class' => 'btn btn-success btn-flat']) !!}
                                                 {!! Form::close() !!}
                                             </div>
@@ -75,8 +75,8 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    Showing {{ $employees->firstItem() }} to {{ $employees->lastItem() }} of {{ $employees->total() }} entries
-                    <span class="pull-right">{!! $employees->setPath('')->appends(Input::query())->render() !!}</span>
+                    Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }} entries
+                    <span class="pull-right">{!! $students->setPath('')->appends(Input::query())->render() !!}</span>
                 </div>
             </div>
         </div>

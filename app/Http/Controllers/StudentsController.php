@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 
-class EmployeesController extends Controller
+class StudentsController extends Controller
 {
     public function __construct()
     {
@@ -20,10 +20,10 @@ class EmployeesController extends Controller
 
         if($auth_user->ability('system-administrator, users-manager','users-read')){
 
-            $employees = User::where('type','EMPLOYEE')
+            $students = User::where('type','STUDENT')
                 ->paginate(50);
 
-            return view('pages.users.employees.index', compact('employees'));
+            return view('pages.users.students.index', compact('students'));
 
         }else{
 
@@ -31,15 +31,15 @@ class EmployeesController extends Controller
         }
     }
 
-    public function destroy(User $employee)
+    public function destroy(User $student)
     {
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator, users-manager','users-delete')){
-            $employee = $employee;
-            $employee->delete();
+            $student = $student;
+            $student->delete();
 
-            return redirect(route('employees.index'))->withSuccess('The employee: '.$employee->last_name.' is successfully deleted.');
+            return redirect(route('students.index'))->withSuccess('The student: '.$student->last_name.' is successfully deleted.');
 
         }else{
             return redirect()->route('four.zero.five');
@@ -52,12 +52,13 @@ class EmployeesController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->ability('system-administrator, users-manager','users-read')){
-            $employees = User::where('last_name', 'LIKE', '%'.$request->get('search').'%')
+            $students = User::where('last_name', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('first_name', 'LIKE', '%'.$request->get('search').'%')
-                ->where('type','EMPLOYEE')
+                ->orWhere('school_code', 'LIKE', '%'.$request->get('search').'%')
+                ->where('type','STUDENT')
                 ->paginate(50);
 
-            return view('pages.users.employees.index', compact('employees'));
+            return view('pages.users.students.index', compact('students'));
         }else{
             return redirect()->route('four.zero.five');
         }

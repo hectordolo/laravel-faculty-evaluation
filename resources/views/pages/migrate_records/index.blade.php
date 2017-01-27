@@ -11,10 +11,11 @@
 @section('header-scripts')
 
     <style type="text/css">
-        #uploading_img{
+        .uploading{
             display: none;
         }
-        #uploading_text{
+
+        .deleting{
             display: none;
         }
 
@@ -25,17 +26,27 @@
     </style>
 
     <script type="text/javascript">
-        function uploading(){
-            document.getElementById("uploading_img").style.display = "inline";
-            document.getElementById("uploading_text").style.display = "inline";
+        function uploading(i){
+
+            var v = i;
+
+            document.getElementById("uploading_img"+v).style.display = "inline";
+            document.getElementById("uploading_text"+v).style.display = "inline";
+            document.getElementById("status"+v).style.display = "none";
         }
+        function deleting(i){
+
+            var v = i;
+
+            document.getElementById("deleting_img"+v).style.display = "inline";
+            document.getElementById("deleting_text"+v).style.display = "inline";
+        }
+
     </script>
 
 @endsection
 
 @section('page-content')
-
-    <img src="img/ajax-loader.gif" alt="Loading" height="20" id="uploading_img"> <span id="uploading_text">migrating...</span>
 
     <div class="row">
         <div class="col-lg-12">
@@ -55,10 +66,13 @@
                         <tr>
                             <td class=" ">{{$key+1}}</td>
                             <td class=" ">{{isset($record->name)?$record->name:''}}</td>
-                            <td class=" ">{{$record->status==0?'Not Migrated':'Migrated'}}</td>
+                            <td class=" ">
+                                <div id="status{{$record->id}}">{{$record->status==0?'Not Migrated':'Migrated'}}</div>
+                                <img src="img/ajax-loader.gif" alt="Loading" height="20" class="uploading" id="uploading_img{{$record->id}}"> <span class="uploading" id="uploading_text{{$record->id}}">migrating...</span>
+                            </td>
                             <td>
                                 @if($record->status==0)
-                                    <a href="{{route('migrate_options.migrate', [$record->id])}}" title="Migrate Records" class="btn btn-default btn-sm" onclick="uploading()"><i class="fa fa-plus"></i></a>
+                                    <a href="{{route('migrate_options.migrate', [$record->id])}}" title="Migrate Records" class="btn btn-default btn-sm" onclick="uploading({{$record->id}})"><i class="fa fa-plus"></i></a>
                                 @endif
                                 @if($record->status==1)
                                     <a type="button" class="btn btn-default btn-sm" title="Delete Records" data-toggle="modal" data-target="#deleteModal{{ $record->id }}"><i class="fa fa-trash"></i></a>
@@ -71,10 +85,12 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Are you sure you want to delete the records of: {{$record->name}}?</p>
+
+                                                    <img src="img/ajax-loader.gif" alt="Loading" height="20" class="deleting" id="deleting_img{{$record->id}}"> <span class="deleting" id="deleting_text{{$record->id}}">deleting...</span>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                    <a type="button" href="{{route('migrate_options.delete', [$record->id])}}" class="btn btn-success btn-flat">Yes</a>
+                                                    <a type="button" href="{{route('migrate_options.delete', [$record->id])}}" class="btn btn-success btn-flat" onclick="deleting({{$record->id}})">Yes</a>
                                                 </div>
                                             </div>
                                         </div>

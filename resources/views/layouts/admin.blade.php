@@ -126,6 +126,7 @@
                         <ul class="nav nav-second-level">
 
                             <li><a href="{{route('employees.index')}}">Employees Lists</a></li>
+                            <li><a href="{{route('students.index')}}">Students Lists</a></li>
 
                         </ul>
                     </li>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use Illuminate\Http\Request;
 
 use App\Models\GlobalVariables;
 use App\Models\MigrationOptions;
 use App\Models\MigrateRecords;
+use App\Models\RoleUser;
 use App\User;
 
 use Auth;
@@ -77,17 +79,18 @@ class MigrateSettingsController extends Controller
 
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
-                        User::insert([
-                            'student_code' => $v->student_code,
-                            'section_code' => $v->section_code,
-                            'subject_code' => $v->subject_code,
-                            'employee_code' => $v->employee_code,
-                            'employee_name' => $v->employee_name,
-                            'status' => $v->status,
-                            'semester' => $semester->value,
-                            'school_year' => $school_year->value,
-                            'school_code' => 'COLLEGE'
-                        ]);
+                        MigrateRecords::create([
+                                'student_code' => $v->student_code,
+                                'section_code' => $v->section_code,
+                                'subject_code' => $v->subject_code,
+                                'employee_code' => $v->employee_code,
+                                'employee_name' => $v->employee_name,
+                                'status' => $v->status,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value,
+                                'school_code' => 'COLLEGE'
+                            ]);
+
                     }
 
 
@@ -129,7 +132,7 @@ class MigrateSettingsController extends Controller
 
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
-                        MigrateRecords::insert([
+                        MigrateRecords::create([
                             'student_code' => $v->student_code,
                             'section_code' => $v->section_code,
                             'subject_code' => $v->subject_code,
@@ -138,7 +141,7 @@ class MigrateSettingsController extends Controller
                             'status' => $v->status,
                             'semester' => $semester->value,
                             'school_year' => $school_year->value,
-                            'school_code' => 'COLLEGE'
+                            'school_code' => 'GRADUATE'
                         ]);
                     }
 
@@ -180,7 +183,7 @@ class MigrateSettingsController extends Controller
 
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
-                        MigrateRecords::insert([
+                        MigrateRecords::create([
                             'student_code' => $v->student_code,
                             'section_code' => $v->section_code,
                             'subject_code' => $v->subject_code,
@@ -189,7 +192,7 @@ class MigrateSettingsController extends Controller
                             'status' => $v->status,
                             'semester' => $semester->value,
                             'school_year' => $school_year->value,
-                            'school_code' => 'COLLEGE'
+                            'school_code' => 'SHS'
                         ]);
                     }
 
@@ -208,8 +211,6 @@ class MigrateSettingsController extends Controller
                                     registrations.studentcode as sjc_id,
                                     students.lname as last_name,
                                     students.fname as first_name,
-                                    'COLLEGE' as school_code,
-                                    'STUDENT' as type,
                                     students.degreecode as course,
                                     students.schoolcode as school_of 
                                 FROM
@@ -230,58 +231,377 @@ class MigrateSettingsController extends Controller
 
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
-                        MigrateRecords::insert([
-                            'student_code' => $v->student_code,
-                            'section_code' => $v->section_code,
-                            'subject_code' => $v->subject_code,
-                            'employee_code' => $v->employee_code,
-                            'employee_name' => $v->employee_name,
-                            'status' => $v->status,
-                            'semester' => $semester->value,
-                            'school_year' => $school_year->value,
-                            'school_code' => 'COLLEGE'
-                        ]);
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)){
+
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'COLLEGE',
+                                'type' => 'STUDENT',
+                                'course' => $v->course,
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '6'
+                            ]);
+
+                        }
                     }
 
 
                     $record->status = '1';
                     $record->save();
                 }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }elseif ($id == 5){
+
+                $raw_data = DB::connection('graduate')
+                    ->select("SELECT 
+                                DISTINCT
+                                    registrations.studentcode as sjc_id,
+                                    students.lname as last_name,
+                                    students.fname as first_name,
+                                    students.degreecode as course,
+                                    students.schoolcode as school_of 
+                                FROM
+                                    registrations
+                                
+                                INNER JOIN
+                                    students
+                                ON
+                                    registrations.studentcode = students.studentcode
+                                    
+                                WHERE
+                                    registrations.semester = '$semester->value'
+                                AND
+                                    registrations.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(5);
 
-                $record->status = '1';
-                $record->save();
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)){
+
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'GRADUATE',
+                                'type' => 'STUDENT',
+                                'course' => $v->course,
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '6'
+                            ]);
+                        }
+                    }
+
+
+                    $record->status = '1';
+                    $record->save();
+                }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }elseif ($id == 6){
+
+                $raw_data = DB::connection('shs')
+                    ->select("SELECT 
+                                DISTINCT
+                                    registrations.studentcode as sjc_id,
+                                    students.lname as last_name,
+                                    students.fname as first_name,
+                                    students.degreecode as course,
+                                    students.schoolcode as school_of 
+                                FROM
+                                    registrations
+                                
+                                INNER JOIN
+                                    students
+                                ON
+                                    registrations.studentcode = students.studentcode
+                                    
+                                WHERE
+                                    registrations.semester = '$semester->value'
+                                AND
+                                    registrations.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(6);
 
-                $record->status = '1';
-                $record->save();
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)) {
+
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'SHS',
+                                'type' => 'STUDENT',
+                                'course' => $v->course,
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '6'
+                            ]);
+                        }
+
+                    }
+
+
+                    $record->status = '1';
+                    $record->save();
+                }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }elseif ($id == 7){
+
+
+
+                $raw_data = DB::connection('college')
+                    ->select("SELECT
+                                    DISTINCT 
+                                    sectionssubjects.employeecode as sjc_id,
+                                    employees.lname as last_name,
+                                    employees.fname as first_name,
+                                    employees.schoolcode as school_of,
+                                    employees.jobtitlecode as job_title
+                                    
+                                FROM
+                                    sectionssubjects
+                                INNER JOIN
+                                    employees
+                                ON
+                                    sectionssubjects.employeecode = employees.employeecode
+                                
+                                WHERE
+                                    employees.lname != 'TBA'
+                                AND
+                                    sectionssubjects.semester = '$semester->value'
+                                AND
+                                    sectionssubjects.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(7);
 
-                $record->status = '1';
-                $record->save();
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)) {
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'COLLEGE',
+                                'type' => 'EMPLOYEE',
+                                'course' => '',
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            if($v->job_title == 'DEAN'){
+                                $role = RoleUser::insert([
+                                    'user_id' => $user->id,
+                                    'role_id' => '4'
+                                ]);
+                            }
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '5'
+                            ]);
+                        }
+
+                    }
+
+
+                    $record->status = '1';
+                    $record->save();
+                }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }elseif ($id == 8){
+
+                $raw_data = DB::connection('graduate')
+                    ->select("SELECT
+                                    DISTINCT 
+                                    sectionssubjects.employeecode as sjc_id,
+                                    employees.lname as last_name,
+                                    employees.fname as first_name,
+                                    employees.schoolcode as school_of,
+                                    employees.jobtitlecode as job_title
+                                    
+                                FROM
+                                    sectionssubjects
+                                INNER JOIN
+                                    employees
+                                ON
+                                    sectionssubjects.employeecode = employees.employeecode
+                                
+                                WHERE
+                                    employees.lname != 'TBA'
+                                AND
+                                    sectionssubjects.semester = '$semester->value'
+                                AND
+                                    sectionssubjects.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(8);
 
-                $record->status = '1';
-                $record->save();
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)) {
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'GRADUATE',
+                                'type' => 'EMPLOYEE',
+                                'course' => '',
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            if($v->job_title == 'DEAN'){
+                                $user_role = RoleUser::insert([
+                                    'user_id' => $user->id,
+                                    'role_id' => '4'
+                                ]);
+                            }
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '5'
+                            ]);
+                        }
+
+                    }
+
+
+                    $record->status = '1';
+                    $record->save();
+                }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }else{
+                $raw_data = DB::connection('shs')
+                    ->select("SELECT
+                                    DISTINCT 
+                                    sectionssubjects.employeecode as sjc_id,
+                                    employees.lname as last_name,
+                                    employees.fname as first_name,
+                                    employees.schoolcode as school_of,
+                                    employees.jobtitlecode as job_title
+                                    
+                                FROM
+                                    sectionssubjects
+                                INNER JOIN
+                                    employees
+                                ON
+                                    sectionssubjects.employeecode = employees.employeecode
+                                
+                                WHERE
+                                    employees.lname != 'TBA'
+                                AND
+                                    sectionssubjects.semester = '$semester->value'
+                                AND
+                                    sectionssubjects.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(9);
 
-                $record->status = '1';
-                $record->save();
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+
+                        $available = User::where('sjc_id', $v->sjc_id)
+                            ->first();
+
+                        if(empty($available)) {
+                            $user = User::create([
+                                'sjc_id' => $v->sjc_id,
+                                'last_name' => $v->last_name,
+                                'first_name' => $v->first_name,
+                                'username' => $v->sjc_id,
+                                'password' => bcrypt($v->sjc_id),
+                                'school_code' => 'SHS',
+                                'type' => 'EMPLOYEE',
+                                'course' => '',
+                                'school_of' => $v->school_of,
+                                'semester' => $semester->value,
+                                'school_year' => $school_year->value
+                            ]);
+
+                            if($v->job_title == 'DEAN'){
+                                $user_role = RoleUser::insert([
+                                    'user_id' => $user->id,
+                                    'role_id' => '4'
+                                ]);
+                            }
+
+                            $user_role = RoleUser::insert([
+                                'user_id' => $user->id,
+                                'role_id' => '5'
+                            ]);
+                        }
+
+                    }
+
+                    $record->status = '1';
+                    $record->save();
+                }
+
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
             }
 
@@ -347,43 +667,126 @@ class MigrateSettingsController extends Controller
             }elseif ($id == 4){
                 $record = MigrationOptions::find(4);
 
-                $record->status = '0';
-                $record->save();
-                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
-            }elseif ($id == 5){
-                $record = MigrationOptions::find(5);
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'COLLEGE')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
 
                 $record->status = '0';
                 $record->save();
+
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+
+            }elseif ($id == 5){
+                $record = MigrationOptions::find(5);
+
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'GRADUATE')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
+
+                $record->status = '0';
+                $record->save();
+
                 return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
             }elseif ($id == 6){
                 $record = MigrationOptions::find(6);
 
-                $record->status = '0';
-                $record->save();
-                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
-            }elseif ($id == 7){
-                $record = MigrationOptions::find(7);
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'SHS')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
 
                 $record->status = '0';
                 $record->save();
+
                 return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+
+            }elseif ($id == 7){
+
+                $record = MigrationOptions::find(7);
+
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'COLLEGE')
+                    ->where('type','EMPLOYEE')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
+
+                $record->status = '0';
+                $record->save();
+
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+
             }elseif ($id == 8){
                 $record = MigrationOptions::find(8);
 
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'GRADUATE')
+                    ->where('type','EMPLOYEE')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
+
                 $record->status = '0';
                 $record->save();
+
                 return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+
             }else{
                 $record = MigrationOptions::find(9);
 
+                $users = User::where('semester', $semester->value)
+                    ->where('school_year', $school_year->value)
+                    ->where('school_code', 'SHS')
+                    ->where('type','EMPLOYEE')
+                    ->get();
+
+                if(!empty($users)){
+                    foreach ($users as $v){
+                        $user = User::destroy($v->id);
+                        $role_delete = RoleUser::where('user_id', $v->id)->delete();
+                    }
+                }
+
                 $record->status = '0';
                 $record->save();
+
                 return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
             }
-
-
-            return redirect(route('migrate_options.index'))->withSuccess('The records are deleted.');
 
         }else{
 

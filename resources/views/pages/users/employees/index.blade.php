@@ -41,7 +41,7 @@
                     @foreach($employees as $key=>$employee)
                         <tr>
                             <td class=" ">{{$key+1}}</td>
-                            <td class=" ">{{isset($employee->employee_id)?$employee->employee_id:''}}</td>
+                            <td class=" ">{{isset($employee->sjc_id)?$employee->sjc_id:''}}</td>
                             <td class=" ">{{isset($employee->last_name)?$employee->last_name:''}}</td>
                             <td class=" ">{{isset($employee->first_name)?$employee->first_name:''}}</td>
                             <td class=" ">{{isset($employee->school_code)?$employee->school_code:''}}</td>
