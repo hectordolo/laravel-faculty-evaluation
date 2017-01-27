@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\GlobalVariables;
 use App\Models\MigrationOptions;
 use App\Models\MigrateRecords;
+use App\User;
 
 use Auth;
 
@@ -76,7 +77,7 @@ class MigrateSettingsController extends Controller
 
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
-                        MigrateRecords::insert([
+                        User::insert([
                             'student_code' => $v->student_code,
                             'section_code' => $v->section_code,
                             'subject_code' => $v->subject_code,
@@ -199,13 +200,89 @@ class MigrateSettingsController extends Controller
 
                 return redirect(route('migrate_options.index'))->withSuccess('The record of:'.$record->name.' are successfully migrated.');
 
-            }elseif ($id == 4)  {
+            }elseif ($id == 4) {
+
+                $raw_data = DB::connection('college')
+                    ->select("SELECT 
+                                DISTINCT
+                                    registrations.studentcode as sjc_id,
+                                    students.lname as last_name,
+                                    students.fname as first_name,
+                                    'COLLEGE' as school_code,
+                                    'STUDENT' as type,
+                                    students.degreecode as course,
+                                    students.schoolcode as school_of 
+                                FROM
+                                    registrations
+                                
+                                INNER JOIN
+                                    students
+                                ON
+                                    registrations.studentcode = students.studentcode
+                                    
+                                WHERE
+                                    registrations.semester = '$semester->value'
+                                AND
+                                    registrations.schoolyear = '$school_year->value'");
+
+
                 $record = MigrationOptions::find(4);
-                return redirect(route('migrate_options.index'))->withSuccess('The record of:'.$record->name.' are successfully migrated.');
+
+                if(!empty($raw_data)){
+                    foreach ($raw_data as $v){
+                        MigrateRecords::insert([
+                            'student_code' => $v->student_code,
+                            'section_code' => $v->section_code,
+                            'subject_code' => $v->subject_code,
+                            'employee_code' => $v->employee_code,
+                            'employee_name' => $v->employee_name,
+                            'status' => $v->status,
+                            'semester' => $semester->value,
+                            'school_year' => $school_year->value,
+                            'school_code' => 'COLLEGE'
+                        ]);
+                    }
+
+
+                    $record->status = '1';
+                    $record->save();
+                }
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
+
+            }elseif ($id == 5){
+                $record = MigrationOptions::find(5);
+
+                $record->status = '1';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
+
+            }elseif ($id == 6){
+                $record = MigrationOptions::find(6);
+
+                $record->status = '1';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
+
+            }elseif ($id == 7){
+                $record = MigrationOptions::find(7);
+
+                $record->status = '1';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
+
+            }elseif ($id == 8){
+                $record = MigrationOptions::find(8);
+
+                $record->status = '1';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
 
             }else{
-                $record = MigrationOptions::find(5);
-                return redirect(route('migrate_options.index'))->withSuccess('The record of:'.$record->name.' are successfully migrated.');
+                $record = MigrationOptions::find(9);
+
+                $record->status = '1';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The record of:' . $record->name . ' are successfully migrated.');
             }
 
 
@@ -267,8 +344,42 @@ class MigrateSettingsController extends Controller
 
                 return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
 
-            }else{
+            }elseif ($id == 4){
+                $record = MigrationOptions::find(4);
 
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+            }elseif ($id == 5){
+                $record = MigrationOptions::find(5);
+
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+            }elseif ($id == 6){
+                $record = MigrationOptions::find(6);
+
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+            }elseif ($id == 7){
+                $record = MigrationOptions::find(7);
+
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+            }elseif ($id == 8){
+                $record = MigrationOptions::find(8);
+
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
+            }else{
+                $record = MigrationOptions::find(9);
+
+                $record->status = '0';
+                $record->save();
+                return redirect(route('migrate_options.index'))->withSuccess('The records under:'.$record->name.' are deleted.');
             }
 
 
