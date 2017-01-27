@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GroupsTableSeeder::class);
         $this->call(QuestionsTableSeeder::class);
         $this->call(GroupsQuestionsSeeder::class);
+        $this->call(MigrationOptionsTableSeeder::class);
     }
 }

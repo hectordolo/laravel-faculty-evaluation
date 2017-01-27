@@ -15,6 +15,7 @@ class MigrateRecords extends Model
         'employee_code',
         'status',
         'semester',
-        'school_year'
+        'school_year',
+        'school_code'
     ];
 }

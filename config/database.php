@@ -80,6 +80,34 @@ return [
             'engine' => null,
         ],
 
+        'graduate' => [
+            'driver' => 'mysql',
+            'host' => '172.20.100.252',
+            'port' => '3306',
+            'database' => 'ies',
+            'username' => 'admin',
+            'password' => 'admin',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'shs' => [
+            'driver' => 'mysql',
+            'host' => '172.20.100.251',
+            'port' => '3306',
+            'database' => 'sh',
+            'username' => 'admin',
+            'password' => 'admin',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

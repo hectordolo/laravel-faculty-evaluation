@@ -1,17 +1,20 @@
 @extends('layouts.admin')
 
 @section('title')
-    Migrated Records View
+    Migrate Records Settings
 @endsection
 
 @section('page-header')
-    Migrated Records View
+    Migrate Records Settings
 @endsection
 
 @section('header-scripts')
 
     <style type="text/css">
-        #uploading{
+        #uploading_img{
+            display: none;
+        }
+        #uploading_text{
             display: none;
         }
 
@@ -22,9 +25,9 @@
     </style>
 
     <script type="text/javascript">
-        function disable(){
-            document.getElementById("upload").style.display = "none";
-            document.getElementById("uploading").style.display = "block";
+        function uploading(){
+            document.getElementById("uploading_img").style.display = "inline";
+            document.getElementById("uploading_text").style.display = "inline";
         }
     </script>
 
@@ -32,19 +35,7 @@
 
 @section('page-content')
 
-    <a href="{{ route('migrate_records.migrate') }}" id="upload" type="button" class="btn btn-sm btn-success" onsubmit="disable()">Migrate Records</a>
-    <img src="img/ajax-loader.gif" alt="Loading" height="20" id="uploading">
-
-    <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right top_search">
-        {!! Form::open(['method' => 'GET', 'route' => 'migrate_records.search']) !!}
-        <div class="input-group">
-            {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search for...']) !!}
-            <span class="input-group-btn">
-                        {!! Form::button('Go!', ['class' => 'btn btn-default', 'type' => 'submit']) !!}
-                        </span>
-        </div>
-        {!! Form::close() !!}
-    </div>
+    <img src="img/ajax-loader.gif" alt="Loading" height="20" id="uploading_img"> <span id="uploading_text">migrating...</span>
 
     <div class="row">
         <div class="col-lg-12">
@@ -53,12 +44,9 @@
                     <thead>
                     <tr class="headings">
                         <th class="column-title" style="width: 5%">#</th>
-                        <th class="column-title">Student Code</th>
-                        <th class="column-title">Subject Code</th>
-                        <th class="column-title">Section Code</th>
-                        <th class="column-title">Faculty</th>
-                        <th class="column-title" style="width: 10%">Status</th>
-                        <th class="column-title" style="width: 5%">Action</th>
+                        <th class="column-title">Records Name</th>
+                        <th class="column-title">Status</th>
+                        <th class="column-title" style="width: 10%">Action</th>
                     </tr>
                     </thead>
 
@@ -66,44 +54,37 @@
                     @foreach($records as $key=>$record)
                         <tr>
                             <td class=" ">{{$key+1}}</td>
-                            <td class=" ">{{isset($record->student_code)?$record->student_code:''}}</td>
-                            <td class=" ">{{isset($record->subject_code)?$record->subject_code:''}}</td>
-                            <td class=" ">{{isset($record->section_code)?$record->section_code:''}}</td>
-                            <td class=" ">{{isset($record->employee_code)?$record->employee_code:''}}</td>
-                            <td class=" ">{{$record->status==0?'Not Evaluated':'Evaluated'}}</td>
+                            <td class=" ">{{isset($record->name)?$record->name:''}}</td>
+                            <td class=" ">{{$record->status==0?'Not Migrated':'Migrated'}}</td>
                             <td>
-                                <a type="button" class="btn btn-default btn-sm" title="Delete Group" data-toggle="modal" data-target="#deleteModal{{ $record->id }}"><i class="fa fa-trash"></i></a>
-                                <div id="deleteModal{{ $record->id }}" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Confirm Delete</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this record?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                {!! Form::open(['route' => ['migrate_records.destroy', $record->id], 'method' => 'delete']) !!}
-                                                {!! Form::submit('Yes', ['class' => 'btn btn-success btn-flat']) !!}
-                                                {!! Form::close() !!}
+                                @if($record->status==0)
+                                    <a href="{{route('migrate_options.migrate', [$record->id])}}" title="Migrate Records" class="btn btn-default btn-sm" onclick="uploading()"><i class="fa fa-plus"></i></a>
+                                @endif
+                                @if($record->status==1)
+                                    <a type="button" class="btn btn-default btn-sm" title="Delete Records" data-toggle="modal" data-target="#deleteModal{{ $record->id }}"><i class="fa fa-trash"></i></a>
+                                    <div id="deleteModal{{ $record->id }}" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Confirm Delete</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete the records of: {{$record->name}}?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                    <a type="button" href="{{route('migrate_options.delete', [$record->id])}}" class="btn btn-success btn-flat">Yes</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    Showing {{ $records->firstItem() }} to {{ $records->lastItem() }} of {{ $records->total() }} entries
-                    <span class="pull-right">{!! $records->setPath('')->appends(Input::query())->render() !!}</span>
-                </div>
             </div>
         </div>
     </div>

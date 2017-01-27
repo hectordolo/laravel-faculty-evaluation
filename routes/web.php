@@ -88,9 +88,8 @@ Route::group(['prefix' => 'groups_questions'], function () {
     Route::delete('/delete/{group_question}',['as' => 'groups_questions.destroy','uses' => 'GroupsQuestionsController@destroy']);
 });
 
-Route::group(['prefix' => 'migrate_records'], function () {
-    Route::get('/', ['as' => 'migrate_records.index','uses' => 'MigrateRecordsController@index']);
-    Route::get('/migrate', ['as' => 'migrate_records.migrate','uses' => 'MigrateRecordsController@migrate']);
-    Route::get('/search', ['as' => 'migrate_records.search','uses' => 'MigrateRecordsController@search']);
-    Route::delete('/delete/{record}',['as' => 'migrate_records.destroy','uses' => 'MigrateRecordsController@destroy']);
+Route::group(['prefix' => 'migrate_options'], function () {
+    Route::get('/', ['as' => 'migrate_options.index','uses' => 'MigrateSettingsController@index']);
+    Route::get('/migrate/{id}', ['as' => 'migrate_options.migrate','uses' => 'MigrateSettingsController@migrate']);
+    Route::get('/delete/{id}', ['as' => 'migrate_options.delete','uses' => 'MigrateSettingsController@delete']);
 });

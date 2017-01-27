@@ -19,9 +19,11 @@ class CreateMigratedRecordsTable extends Migration
             $table->string('subject_code')->nullable();
             $table->string('section_code')->nullable();
             $table->string('employee_code')->nullable();
+            $table->string('employee_name')->nullable();
             $table->integer('status')->nullable();
             $table->string('semester')->nullable();
             $table->string('school_year')->nullable();
+            $table->string('school_code')->nullable();
             $table->timestamps();
         });
     }

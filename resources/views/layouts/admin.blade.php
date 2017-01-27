@@ -147,7 +147,7 @@
 
                         <ul class="nav nav-second-level">
 
-                            <li><a href="{{route('migrate_records.index')}}"> Migrate Records</a></li>
+                            <li><a href="{{route('migrate_options.index')}}"> Migrate Records</a></li>
 
                         </ul>
                     </li>
