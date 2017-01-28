@@ -37,151 +37,151 @@ class QuestionsTableSeeder extends Seeder
 
         DB::table('questions')->insert([
             'id' => '5',
-            'name' => '',
+            'name' => 'Treats students equally - does not show favoritism',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '6',
-            'name' => '',
+            'name' => 'Wears proper decent attire in the classroom',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '7',
-            'name' => '',
+            'name' => 'Is neat and well - groomed',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '8',
-            'name' => '',
+            'name' => 'Has updated knowledge on the matter',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '9',
-            'name' => '',
+            'name' => 'Enriches the lesson through the use of reference materials other than textbook',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '10',
-            'name' => '',
+            'name' => 'Answers questions in a manner that inspires class confidence in his or her knowledge of the subject matter',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '11',
-            'name' => '',
+            'name' => 'Possesses a comprehensive and accurate grasp of the subject matter',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '12',
-            'name' => '',
+            'name' => 'Handles the subject matter with class and logical sequencing of topics',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '13',
-            'name' => '',
+            'name' => 'Explains the subject matter to the level of the learning experience of students',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '14',
-            'name' => '',
+            'name' => 'Integrates values and other related fields into the subject matter',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '15',
-            'name' => '',
+            'name' => 'Begins and ends the lesson with a prayer',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '16',
-            'name' => 'Has good sense of humor',
+            'name' => 'Shows relationship of the present lesson to the past lesson',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '17',
-            'name' => '',
+            'name' => 'Explains lessons clearly throught he use of examples and teaching devices such as illustrations and visual aids',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '18',
-            'name' => 'Is approachable',
+            'name' => 'Adjust lessons techniques to students abilities',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '19',
-            'name' => '',
+            'name' => 'Enables at least half of the class to understand the subject matter before going to another topic',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '20',
-            'name' => '',
+            'name' => 'Asks challenging questions to develop in the students the skills for critical thinking',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '21',
-            'name' => '',
+            'name' => 'Encourages students to ask questions',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '22',
-            'name' => '',
+            'name' => 'Welcomes varied ideas and opinions related to the subject matter',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '23',
-            'name' => '',
+            'name' => 'Summarizes the lesson covered toward the end of the period',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '24',
-            'name' => '',
+            'name' => 'Gives true to life examples of the lesson',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '25',
-            'name' => '',
+            'name' => 'Requires students to research in the library and use other available resources to enrich the learning process',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '26',
-            'name' => '',
+            'name' => 'Starts the class on time',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '27',
-            'name' => '',
+            'name' => 'Dismisses the class on time',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '28',
-            'name' => '',
+            'name' => 'Looks at the class when explaining the lessonand is able to sustain the interest of the students',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '29',
-            'name' => '',
+            'name' => 'Comes to class well-prepared for the days lesson',
             'active' => '1'
         ]);
 
