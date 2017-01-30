@@ -9,7 +9,7 @@ class MigrateRecords extends Model
     protected $table = 'migrated_records';
 
     protected $fillable = [
-        'student_code',
+        'sjc_id',
         'subject_code',
         'section_code',
         'employee_code',

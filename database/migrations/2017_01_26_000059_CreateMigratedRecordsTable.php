@@ -15,7 +15,7 @@ class CreateMigratedRecordsTable extends Migration
     {
         Schema::create('migrated_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('student_code')->nullable();
+            $table->string('sjc_id')->nullable();
             $table->string('subject_code')->nullable();
             $table->string('section_code')->nullable();
             $table->string('employee_code')->nullable();

@@ -52,7 +52,7 @@ class MigrateSettingsController extends Controller
 
                 $raw_data = DB::connection('college')
                     ->select("SELECT
-                                registrations.studentcode as student_code,
+                                registrations.studentcode as sjc_id,
                                 registrations.sectioncode as section_code,
                                 registrations.subjectcode as subject_code,
                                 sectionssubjects.employeecode as employee_code,
@@ -80,7 +80,7 @@ class MigrateSettingsController extends Controller
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
                         MigrateRecords::create([
-                                'student_code' => $v->student_code,
+                                'sjc_id' => $v->sjc_id,
                                 'section_code' => $v->section_code,
                                 'subject_code' => $v->subject_code,
                                 'employee_code' => $v->employee_code,
@@ -104,7 +104,7 @@ class MigrateSettingsController extends Controller
 
                 $raw_data = DB::connection('graduate')
                     ->select("SELECT
-                                registrations.studentcode as student_code,
+                                registrations.studentcode as sjc_id,
                                 registrations.sectioncode as section_code,
                                 registrations.subjectcode as subject_code,
                                 sectionssubjects.employeecode as employee_code,
@@ -133,7 +133,7 @@ class MigrateSettingsController extends Controller
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
                         MigrateRecords::create([
-                            'student_code' => $v->student_code,
+                            'sjc_id' => $v->sjc_id,
                             'section_code' => $v->section_code,
                             'subject_code' => $v->subject_code,
                             'employee_code' => $v->employee_code,
@@ -155,7 +155,7 @@ class MigrateSettingsController extends Controller
 
                 $raw_data = DB::connection('shs')
                     ->select("SELECT
-                                registrations.studentcode as student_code,
+                                registrations.studentcode as sjc_id,
                                 registrations.sectioncode as section_code,
                                 registrations.subjectcode as subject_code,
                                 sectionssubjects.employeecode as employee_code,
@@ -184,7 +184,7 @@ class MigrateSettingsController extends Controller
                 if(!empty($raw_data)){
                     foreach ($raw_data as $v){
                         MigrateRecords::create([
-                            'student_code' => $v->student_code,
+                            'sjc_id' => $v->sjc_id,
                             'section_code' => $v->section_code,
                             'subject_code' => $v->subject_code,
                             'employee_code' => $v->employee_code,

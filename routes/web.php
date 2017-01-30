@@ -99,3 +99,13 @@ Route::group(['prefix' => 'migrate_options'], function () {
     Route::get('/migrate/{id}', ['as' => 'migrate_options.migrate','uses' => 'MigrateSettingsController@migrate']);
     Route::get('/delete/{id}', ['as' => 'migrate_options.delete','uses' => 'MigrateSettingsController@delete']);
 });
+
+Route::group(['prefix' => 'deans'], function () {
+    Route::get('/', ['as' => 'deans.index','uses' => 'DeanEvaluationController@index']);
+    Route::get('/evaluate/{sjc_id}', ['as' => 'deans.evaluate','uses' => 'DeanEvaluationController@migrate']);
+});
+
+Route::group(['prefix' => 'faculty'], function () {
+    Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
+    Route::get('/evaluate/{sjc_id}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@migrate']);
+});

@@ -97,6 +97,23 @@
 
                 <li><a href="{{url('/')}}"><i class="fa fa-dashboard fa-fw"></i> Home</a></li>
 
+                @role(['faculty','student'])
+
+                <li><a href="#"><i class="fa fa-question"></i> Evaluation<span class="fa arrow"></span></a>
+
+                    <ul class="nav nav-second-level">
+                        @role('faculty')
+                            <li><a href="{{route('deans.index')}}">Dean Evaluation</a></li>
+                        @endrole
+
+                        @role('student')
+                            <li><a href="{{route('faculty.index')}}">Faculty Evaluation</a></li>
+                        @endrole
+                    </ul>
+                </li>
+
+                @endrole
+
                 @ability('system-administrator', 'questions-create,questions-read,questions-update,questions-delete')
 
                     <li><a href="#"><i class="fa fa-question"></i> Questions Management <span class="fa arrow"></span></a>
@@ -117,6 +134,7 @@
 
                         </ul>
                     </li>
+
                 @endability
 
                 @ability('system-administrator,user-manager', 'users-read,users-migrate')

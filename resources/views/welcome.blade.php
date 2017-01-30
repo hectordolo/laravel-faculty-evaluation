@@ -9,10 +9,10 @@
         <div class="col-lg-8">
             <div class="gray-bg">
                 <div class="title">
-                    &lt;Laravel SB Admin&gt;
+                    SJC Evaluation
                 </div>
                 <div class="description">
-                    <p>This is a customized fresh install of the Laravel 5.3 application using the SB Admin Theme.</p>
+                    <p>This is a web application for the automated evaluation of the Faculty and Deans of Saint Jude College.</p>
                 </div>
             </div>
         </div>

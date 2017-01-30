@@ -1,5 +1,7 @@
 html, body {
-    background-color: #fff;
+    background: url(../img/home-office.jpg) no-repeat center center;
+    background-size: cover;
+    background-color: #FFF;
     color: #636b6f;
     font-family: 'Raleway', sans-serif;
     height: 100vh;
@@ -25,11 +27,12 @@ li>a{
 }
 
 .title {
+    color: #FFF;
     font-size: 84px;
 }
 
 .description {
-    color: #636b6f;
+    color: #FFF;
     padding: 0 25px;
     font-size: 35px;
     letter-spacing: .1rem;
