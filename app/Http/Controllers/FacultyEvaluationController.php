@@ -45,22 +45,22 @@ class FacultyEvaluationController extends Controller
                             'section_code'=>$value->section_code,
                             'status'=>'Yes'
                         ];
+                    }else{
+                        $faculties[]=(object)['sjc_id'=> $value->employee_code,
+                            'employee_name'=>$value->employee_name,
+                            'school_of'=>'Empty',
+                            'subject_code'=>$value->subject_code,
+                            'section_code'=>$value->section_code,
+                            'status'=>'Yes'];
                     }
-
-                    $faculties[]=(object)['sjc_id'=> $value->employee_code,
-                        'employee_name'=>$value->employee_name,
-                        'school_of'=>'Empty',
+                }else{
+                    $faculties[]=(object)['sjc_id'=> '',
+                        'employee_name'=>'',
+                        'school_of'=>'',
                         'subject_code'=>$value->subject_code,
                         'section_code'=>$value->section_code,
-                        'status'=>'Empty'];
+                        'status'=>'No'];
                 }
-
-                $faculties[]=(object)['sjc_id'=> $value->employee_code,
-                    'employee_name'=>$value->employee_name,
-                    'school_of'=>'Empty',
-                    'subject_code'=>$value->subject_code,
-                    'section_code'=>$value->section_code,
-                    'status'=>'No'];
             }
 
             return view('pages.student.index', compact('faculties','auth_user'));
@@ -79,7 +79,7 @@ class FacultyEvaluationController extends Controller
 
             //$deans = [];
 
-            return view('pages.dean.evaluate');
+            return view('pages.faculty.evaluate');
 
         }else{
 

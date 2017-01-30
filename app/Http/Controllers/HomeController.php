@@ -31,4 +31,9 @@ class HomeController extends Controller
     {
         return view('errors.405');
     }
+
+    public function sjc_logo()
+    {
+        return response()->download(storage_path('app/img/sjc_logo.png'));
+    }
 }

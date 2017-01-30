@@ -24,6 +24,7 @@ Auth::routes();
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/home', ['as' => 'index','uses' => 'HomeController@index']);
     Route::get('/405', ['as' => 'four.zero.five','uses' => 'HomeController@fourzerofive']);
+    Route::get('/sjc_logo', ['as' => 'sjc_logo','uses' => 'HomeController@sjc_logo']);
 });
 
 Route::group(['prefix' => 'profile'], function () {
