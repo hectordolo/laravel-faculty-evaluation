@@ -187,67 +187,67 @@ class QuestionsTableSeeder extends Seeder
 
         DB::table('questions')->insert([
             'id' => '30',
-            'name' => '',
+            'name' => 'Knows the students by their name',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '31',
-            'name' => '',
+            'name' => 'Respects the students',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '32',
-            'name' => '',
+            'name' => 'Is respected by the students',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '33',
-            'name' => '',
+            'name' => 'Encourages the students to study',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '34',
-            'name' => '',
+            'name' => 'Presents the lesson in a n orderly manner',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '35',
-            'name' => '',
+            'name' => 'Is patient with students - does not use insulting language',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '36',
-            'name' => '',
+            'name' => 'Helps the students to discuss issues without being disagreeable ',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '37',
-            'name' => '',
+            'name' => 'Listens properly to students',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '38',
-            'name' => '',
+            'name' => 'Acknowledges in class the students who do something good such as answering correctly, proper behavior, etc',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '39',
-            'name' => '',
+            'name' => 'Uses class time only for subject matter related to the lesson, not for irrelevant topics such as grievances, gossips, etc',
             'active' => '1'
         ]);
 
         DB::table('questions')->insert([
             'id' => '40',
-            'name' => '',
+            'name' => 'Has good classroom discipline',
             'active' => '1'
         ]);
 
