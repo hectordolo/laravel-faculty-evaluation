@@ -24,7 +24,7 @@ class CreateMigratedRecordsTable extends Migration
             $table->string('semester')->nullable();
             $table->string('school_year')->nullable();
             $table->string('school_code')->nullable();
-            $table->string('evaluation')->nullable();
+            $table->text('evaluation')->nullable();
             $table->timestamps();
         });
     }
