@@ -122,16 +122,55 @@ class FacultyEvaluationController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(Request $request,$subject_code,$section_code){
 
-        $sjc_id = $request->input('sjc_id');
-        $employee_name = $request->input('employee_name');
-        $data = [];
+        $auth_user = Auth::user();
 
-        $data[]=(object)['sjc_id'=>$sjc_id,
-            'employee_name'=>$employee_name];
+        $semester = GlobalVariables::where('name','semester')->first();
+        $school_year = GlobalVariables::where('name','school_year')->first();
 
+        if($auth_user->hasRole('student')){
 
-        return view('pages.test',compact('data'));
+            $sjc_id = $request->input('sjc_id');
+
+            $trait_id = $request->input('trait_id');
+            $area_id = $request->input('area_id');
+            $trait_scores = $request->input('trait_score');
+
+            $count = count($trait_id);
+
+            foreach ($trait_id as $key=>$v){
+                $trait_score[] = (object)['area_id'=>$area_id[$key],
+                    'trait_id'=>$v,
+                    'trait_score'=>$trait_scores[$key]];
+            }
+
+            $data[] = (object)['user_id'=>$auth_user->id,
+                'semester'=>$semester->value,
+                'school_year'=>$school_year->value,
+                'subject_code'=>$subject_code,
+                'section_code'=>$section_code,
+                'employee_id'=> $sjc_id,
+                'trait_score'=>$trait_score];
+
+            $count = count($area_id);
+
+            $migration_record = MigrateRecords::where('semester',$semester->value)
+                ->where('school_year',$school_year->value)
+                ->where('sjc_id',$auth_user->sjc_id)
+                ->where('subject_code',$subject_code)
+                ->where('section_code',$section_code)
+                ->first();
+
+            $json = json_encode($data);
+
+            $migration_record->evaluation = $json;
+            $migration_record->save();
+
+            return view('pages.test',compact('data','count'));
+
+        }else{
+            return redirect()->route('four.zero.five');
+        }
     }
 }

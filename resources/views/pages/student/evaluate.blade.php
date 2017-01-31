@@ -8,8 +8,16 @@
     Evaluation Form
 @endsection
 
+@section('header-scripts')
+    <style type="text/css">
+        .table td.center, .table th.center{
+            text-align: center;
+        }
+    </style>
+@endsection
+
 @section('page-content')
-    {!! Form::open(['route' => 'faculty.store', 'class' => '', 'data-parsley-validate']) !!}
+    {!! Form::open(['route' => ['faculty.store',$subject_code,$section_code], 'class' => '', 'data-parsley-validate']) !!}
         <div class="row">
             <div class="col-lg-8">
                 <div class="panel panel-green">
@@ -103,14 +111,39 @@
                         AREAS AND CORRESPONDING TRAITS
                     </div>
                     <div class="panel-body">
-                        @foreach($questions as $question)
-                            <h4>{{$question->area}}</h4>
-                            <ol>
-                                @foreach($question->questions as $v)
-                                    <li>{{$v->question->name}}{{$v->question->id}}</li>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                @foreach($questions as $question)
+                                    <tr class="success">
+                                        <th colspan="7">
+                                            {{$question->area}} ({{$question->percentage}}%)
+                                        </th>
+                                        <th style="width: 5%" class="center">1</th>
+                                        <th style="width: 5%" class="center">2</th>
+                                        <th style="width: 5%" class="center">3</th>
+                                        <th style="width: 5%" class="center">4</th>
+                                        <th style="width: 5%" class="center">5</th>
+                                    </tr>
+                                    @foreach($question->questions as $key=>$v)
+                                        <tr>
+                                            <td colspan="1">{{$key+1}}</td>
+                                            <td colspan="6">
+                                                <input class="form-control" name="trait_id[{{$v->question->id}}]" type="hidden" value="{{$v->question->id}}">
+                                                <input class="form-control" name="area_id[{{$v->question->id}}]" type="hidden" value="{{$question->area_id}}">
+                                                {{$v->question->name}}
+                                            </td>
+                                            <td class="center"><input type='radio' value="1.00" name="trait_score[{{$v->question->id}}]" required="required"></td>
+                                            <td class="center"><input type='radio' value="2.00" name="trait_score[{{$v->question->id}}]" required="required"></td>
+                                            <td class="center"><input type='radio' value="3.00" name="trait_score[{{$v->question->id}}]" required="required"></td>
+                                            <td class="center"><input type='radio' value="4.00" name="trait_score[{{$v->question->id}}]" required="required"></td>
+                                            <td class="center"><input type='radio' value="5.00" name="trait_score[{{$v->question->id}}]" required="required"></td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
-                            </ol>
-                        @endforeach
+                            </table>
+                        </div>
+
+
 
                         <div class="ln_solid"></div>
                         <div class="form-group">

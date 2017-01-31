@@ -109,5 +109,5 @@ Route::group(['prefix' => 'deans'], function () {
 Route::group(['prefix' => 'faculty'], function () {
     Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
     Route::get('/evaluate/{sjc_id}/{subject_code}/{section_code}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
-    Route::post('/store',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
+    Route::post('/store/{subject_code}/{section_code}}',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
 });

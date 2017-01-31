@@ -16,6 +16,7 @@ class MigrateRecords extends Model
         'status',
         'semester',
         'school_year',
-        'school_code'
+        'school_code',
+        'evaluation'
     ];
 }
