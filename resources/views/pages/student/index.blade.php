@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('title')
-    Faculty & Subjects List
+    Student's Subjects List with Faculty
 @endsection
 
 @section('page-header')
-    Faculty & Subjects List
+    Student's Subjects List with Faculty
 @endsection
 
 @section('page-content')
@@ -30,13 +30,16 @@
                         @if($faculty->faculty == 'No')
                             <tr class="danger">
                                 <td>{{$key+1}}</td>
-                                <td>[NOT APPLICABLE]</td>
-                                <td>[NO FACULTY ASSIGNED]</td>
+                                <td></td>
+                                <td>[FACULTY NOT ENCODED]</td>
                                 <td class=" ">{{isset($faculty->subject_code)?$faculty->subject_code:''}}</td>
                                 <td class=" ">{{isset($faculty->section_code)?$faculty->section_code:''}}</td>
                                 <td>
-
-                                </td>
+                                    @if($faculty->status==0)
+                                        <a href="{{route('faculty.evaluate', [$faculty->migration_record_id])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                                    @else
+                                        [EVALUATED]
+                                    @endif</td>
                             </tr>
                         @else
                             <tr>
@@ -47,9 +50,9 @@
                                 <td class=" ">{{isset($faculty->section_code)?$faculty->section_code:''}}</td>
                                 <td>
                                     @if($faculty->status==0)
-                                        <a href="{{route('faculty.evaluate', [$faculty->sjc_id,$faculty->subject_code,$faculty->section_code])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                                        <a href="{{route('faculty.evaluate', [$faculty->migration_record_id])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
                                     @else
-                                        Evaluated
+                                        [EVALUATED]
                                     @endif
                                 </td>
                             </tr>

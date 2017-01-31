@@ -13,7 +13,8 @@
 
 Route::get('/', function () {
     if(Auth::user()){
-        return view('home');
+        $auth_user = Auth::user();
+        return view('home',compact('auth_user'));
     }else{
         return view('welcome');
     }
@@ -38,7 +39,11 @@ Route::group(['prefix' => 'profile'], function () {
 
 Route::group(['prefix' => 'employees'], function () {
     Route::get('/', ['as' => 'employees.index','uses' => 'EmployeesController@index']);
+    Route::get('/add', ['as' => 'employees.add','uses' => 'EmployeesController@add']);
+    Route::get('/edit/{employee}', ['as' => 'employees.edit','uses' => 'EmployeesController@edit']);
     Route::get('/search', ['as' => 'employees.search','uses' => 'EmployeesController@search']);
+    Route::post('/store',['as' => 'employees.store','uses' => 'EmployeesController@store']);
+    Route::patch('/patch/{question}',['as' => 'employees.update','uses' => 'EmployeesController@update']);
     Route::delete('/delete/{employee}',['as' => 'employees.destroy','uses' => 'EmployeesController@destroy']);
 });
 
@@ -108,6 +113,6 @@ Route::group(['prefix' => 'deans'], function () {
 
 Route::group(['prefix' => 'faculty'], function () {
     Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
-    Route::get('/evaluate/{sjc_id}/{subject_code}/{section_code}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
+    Route::get('/evaluate/{migration_record_id}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
     Route::post('/store/{subject_code}/{section_code}}',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
 });

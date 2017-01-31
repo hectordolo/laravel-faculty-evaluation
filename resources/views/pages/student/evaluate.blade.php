@@ -17,7 +17,7 @@
 @endsection
 
 @section('page-content')
-    {!! Form::open(['route' => ['faculty.store',$subject_code,$section_code], 'class' => '', 'data-parsley-validate']) !!}
+    {!! Form::open(['route' => ['faculty.store',$migrate_record->subject_code,$migrate_record->section_code], 'class' => '', 'data-parsley-validate']) !!}
         <div class="row">
             <div class="col-lg-8">
                 <div class="panel panel-green">
@@ -27,17 +27,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group col-lg-4">
-                                <label for="employee_name">Employee Name:</label>
-                                <input class="form-control" name="employee_name" id="employee_name" type="text" value="{{$faculty->last_name}}, {{$faculty->first_name}}" disabled>
-                                <input class="form-control" name="sjc_id" type="hidden" value="{{$faculty->sjc_id}}">
+                                <label for="employee_name">Faculty Name:</label>
+                                <input class="form-control" name="employee_name" id="employee_name" type="text" value="{{isset($faculty->last_name)?$faculty->last_name.', '.$faculty->first_name:'FACULTY NOT ENCODED'}}" disabled>
+                                <input class="form-control" name="sjc_id" type="hidden" value="{{isset($faculty->sjc_id)?$faculty->sjc_id:''}}">
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="semester">Semester:</label>
-                                <input class="form-control" id="semester" type="text" value="{{$semester->value}}" disabled>
+                                <input class="form-control" id="semester" type="text" value="{{$migrate_record->semester}}" disabled>
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="school_year">School Year:</label>
-                                <input class="form-control" id="school_year" type="text" value="{{$school_year->value}}" disabled>
+                                <input class="form-control" id="school_year" type="text" value="{{$migrate_record->school_year}}" disabled>
                             </div>
                         </div>
                         <div class="row">
@@ -47,11 +47,11 @@
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="subject_code">Subject Code:</label>
-                                <input class="form-control" id="subject_code" type="text" value="{{$subject_code}}" disabled>
+                                <input class="form-control" id="subject_code" type="text" value="{{$migrate_record->subject_code}}" disabled>
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="section_code">Section Code:</label>
-                                <input class="form-control" id="section_code" type="text" value="{{$section_code}}" disabled>
+                                <input class="form-control" id="section_code" type="text" value="{{$migrate_record->section_code}}" disabled>
                             </div>
                         </div>
                     </div>
@@ -143,12 +143,15 @@
                             </table>
                         </div>
 
-
+                        <div class="form-group">
+                            <label>Comments (Optional):</label>
+                            <textarea name="comments" class="form-control" rows="3"></textarea>
+                        </div>
 
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-10">
-                                <a href="{{ route('faculty.index',[$faculty->id,$subject_code,$section_code]) }}" type="button" class="btn btn-primary">Cancel</a>
+                                <a href="{{ route('faculty.index') }}" type="button" class="btn btn-primary">Cancel</a>
                                 {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
                             </div>
                         </div>

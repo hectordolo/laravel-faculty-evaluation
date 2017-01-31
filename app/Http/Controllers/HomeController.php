@@ -24,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $auth_user = Auth::user();
+
+        return view('home',compact('auth_user'));
     }
 
     public function fourzerofive()
