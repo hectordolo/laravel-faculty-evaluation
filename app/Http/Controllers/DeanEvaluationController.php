@@ -36,9 +36,10 @@ class DeanEvaluationController extends Controller
 
         if($auth_user->hasRole('faculty')){
 
-            //$deans = [];
+            $dean = User::where('sjc_id', $sjc_id)
+                ->first();
 
-            return view('pages.dean.evaluate');
+            return view('pages.dean.evaluate', compact('dean'));
 
         }else{
 

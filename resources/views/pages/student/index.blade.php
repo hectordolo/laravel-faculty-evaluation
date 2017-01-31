@@ -27,15 +27,15 @@
 
                     <tbody>
                     @foreach($faculties as $key=>$faculty)
-                        @if($faculty->status == 'No')
+                        @if($faculty->faculty == 'No')
                             <tr class="danger">
                                 <td>{{$key+1}}</td>
-                                <td>Faculty not Encoded</td>
-                                <td></td>
+                                <td>[NOT APPLICABLE]</td>
+                                <td>[NO FACULTY ASSIGNED]</td>
                                 <td class=" ">{{isset($faculty->subject_code)?$faculty->subject_code:''}}</td>
                                 <td class=" ">{{isset($faculty->section_code)?$faculty->section_code:''}}</td>
                                 <td>
-                                    None
+
                                 </td>
                             </tr>
                         @else
@@ -46,7 +46,11 @@
                                 <td class=" ">{{isset($faculty->subject_code)?$faculty->subject_code:''}}</td>
                                 <td class=" ">{{isset($faculty->section_code)?$faculty->section_code:''}}</td>
                                 <td>
-                                    <a href="{{route('faculty.evaluate', [$faculty->sjc_id])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                                    @if($faculty->status==0)
+                                        <a href="{{route('faculty.evaluate', [$faculty->sjc_id,$faculty->subject_code,$faculty->section_code])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                                    @else
+                                        Evaluated
+                                    @endif
                                 </td>
                             </tr>
                         @endif

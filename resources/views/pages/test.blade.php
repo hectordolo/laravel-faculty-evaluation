@@ -16,8 +16,9 @@
 
 @section('page-content')
 
+
     @foreach($data as $d)
-        {{$d->student_code}}<br>
+        {{$d->sjc_id}} {{$d->employee_name}}
     @endforeach
 
 @endsection

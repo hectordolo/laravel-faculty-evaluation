@@ -103,10 +103,11 @@ Route::group(['prefix' => 'migrate_options'], function () {
 
 Route::group(['prefix' => 'deans'], function () {
     Route::get('/', ['as' => 'deans.index','uses' => 'DeanEvaluationController@index']);
-    Route::get('/evaluate/{sjc_id}', ['as' => 'deans.evaluate','uses' => 'DeanEvaluationController@migrate']);
+    Route::get('/evaluate/{sjc_id}', ['as' => 'deans.evaluate','uses' => 'DeanEvaluationController@evaluate']);
 });
 
 Route::group(['prefix' => 'faculty'], function () {
     Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
-    Route::get('/evaluate/{sjc_id}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@migrate']);
+    Route::get('/evaluate/{sjc_id}/{subject_code}/{section_code}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
+    Route::post('/store',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
 });
