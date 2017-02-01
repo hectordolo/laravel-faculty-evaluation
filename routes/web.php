@@ -108,11 +108,22 @@ Route::group(['prefix' => 'migrate_options'], function () {
 
 Route::group(['prefix' => 'deans'], function () {
     Route::get('/', ['as' => 'deans.index','uses' => 'DeanEvaluationController@index']);
-    Route::get('/evaluate/{sjc_id}', ['as' => 'deans.evaluate','uses' => 'DeanEvaluationController@evaluate']);
+    Route::get('/evaluate/{id}', ['as' => 'deans.evaluate','uses' => 'DeanEvaluationController@evaluate']);
+    Route::post('/store/{id}}',['as' => 'deans.store','uses' => 'DeanEvaluationController@store']);
 });
 
 Route::group(['prefix' => 'faculty'], function () {
     Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
     Route::get('/evaluate/{migration_record_id}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
     Route::post('/store/{subject_code}/{section_code}}',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
+});
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', ['as' => 'users.index','uses' => 'UsersController@index']);
+    Route::get('/add', ['as' => 'users.add','uses' => 'UsersController@add']);
+    Route::get('/edit/{user}', ['as' => 'users.edit','uses' => 'UsersController@edit']);
+    Route::get('/search', ['as' => 'users.search','uses' => 'UsersController@search']);
+    Route::post('/store',['as' => 'users.store','uses' => 'UsersController@store']);
+    Route::patch('/patch/{user}',['as' => 'users.update','uses' => 'UsersController@update']);
+    Route::delete('/delete/{user}',['as' => 'users.destroy','uses' => 'UsersController@destroy']);
 });

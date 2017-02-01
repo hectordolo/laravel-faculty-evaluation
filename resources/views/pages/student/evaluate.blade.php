@@ -152,14 +152,33 @@
                         <div class="form-group">
                             <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-10">
                                 <a href="{{ route('faculty.index') }}" type="button" class="btn btn-primary">Cancel</a>
-                                {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
+                                <a type="button" data-toggle="modal" data-target="#confirmModal" class="btn btn-success">Save</a>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    {!! Form::close() !!}
+        <div id="confirmModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Confirm Submit</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to submit your evaluation of the faculty?</p>
+                        <p><strong>This cannot be undone!</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        {!! Form::submit('Save', ['class' => 'btn btn-success btn-flat']) !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 @endsection

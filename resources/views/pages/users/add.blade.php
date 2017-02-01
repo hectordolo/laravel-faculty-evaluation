@@ -12,17 +12,11 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2>Add User Form</h2>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    {!! Form::open(['route' => 'user.store', 'class' => 'form-horizontal form-label-left', 'data-parsley-validate']) !!}
-                    @include('pages.users.form')
-                    {!! Form::close() !!}
-                </div>
-            </div>
+
+                {!! Form::open(['route' => 'users.store', 'class' => 'form-horizontal form-label-left', 'data-parsley-validate']) !!}
+                @include('pages.users.form')
+                {!! Form::close() !!}
+
         </div>
     </div>
 @endsection

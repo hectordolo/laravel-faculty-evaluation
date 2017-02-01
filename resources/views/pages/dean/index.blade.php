@@ -26,8 +26,12 @@
                         <tr>
                             <td class=" ">{{isset($dean->last_name)?$dean->last_name.', '.$dean->first_name:''}}</td>
                             <td>
-                                <a href="{{route('deans.evaluate', [$dean->sjc_id])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
-                            </td>
+                                @if($dean->status == 0)
+                                    <a href="{{route('deans.evaluate', [$dean->department_head_id])}}" title="Evaluate" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+                                @else
+                                    [EVALUATED]
+                                @endif
+                                 </td>
                         </tr>
                     @endforeach
                     </tbody>

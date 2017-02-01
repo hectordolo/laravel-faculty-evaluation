@@ -134,21 +134,10 @@
 
                             <li><a href="{{route('employees.index')}}">Employees Lists</a></li>
                             <li><a href="{{route('students.index')}}">Students Lists</a></li>
-
+                            <li><a href="{{route('users.index')}}">All Users</a></li>
                         </ul>
                     </li>
                 @endability
-
-                @role('system-administrator')
-                    <li><a href="#"><i class="fa fa-users"></i> Global Variables <span class="fa arrow"></span></a>
-
-                        <ul class="nav nav-second-level">
-
-                            <li><a href="{{route('global_variables.index')}}">Global Variables Lists</a></li>
-
-                        </ul>
-                    </li>
-                @endrole
 
                 @role('system-administrator')
                     <li><a href="#"><i class="fa fa-gears"></i> Settings <span class="fa arrow"></span></a>
@@ -156,7 +145,7 @@
                         <ul class="nav nav-second-level">
 
                             <li><a href="{{route('migrate_options.index')}}"> Migrate Records</a></li>
-
+                            <li><a href="{{route('global_variables.index')}}">Global Variables Lists</a></li>
                         </ul>
                     </li>
                 @endrole

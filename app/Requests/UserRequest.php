@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\User;
@@ -50,9 +50,9 @@ class UserRequest extends FormRequest
                     'sjc_id' => 'required|max:50',
                     'first_name' => 'required|max:100',
                     'last_name' => 'required|max:100',
-                    'username' => 'required|min:6|unique:users,username'. $this->segment(3),
-                    'password' => 'required|min:6|confirmed',
-                    'password_confirmation' => 'required|min:6',
+                    'username' => 'required|min:6|unique:users,username,'. $this->segment(3),
+                    'password' => 'min:6|confirmed',
+                    'password_confirmation' => 'min:6',
                     'school_code' => 'max:20',
                     'type' => 'max:20',
                     'course' => 'max:20',
