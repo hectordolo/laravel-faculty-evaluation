@@ -45,6 +45,9 @@ class UsersController extends Controller
                 ->orWhere('first_name', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('sjc_id', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('username', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('type', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('school_of', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('school_code', 'LIKE', '%'.$request->get('search').'%')
                 ->paginate(25);
 
             return view('pages.users.index', compact('users'));

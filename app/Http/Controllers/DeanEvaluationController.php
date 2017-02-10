@@ -26,23 +26,10 @@ class DeanEvaluationController extends Controller
 
         if($auth_user->hasRole('faculty')){
 
-            $heads = DepartmentHeads::where('faculty_id',$auth_user->sjc_id)
+            $heads = DepartmentHeads::where('faculty_id',$auth_user->id)
                 ->get();
 
-            $deans = [];
-
-            foreach ($heads as $head){
-                $dean = User::where('sjc_id',$head->dean_id)
-                    ->first();
-
-                $deans[] = (object)['department_head_id' => $head->id,
-                    'last_name'=>$dean->last_name,
-                    'first_name'=>$dean->first_name,
-                    'status'=>$head->status];
-            }
-
-
-            return view('pages.dean.index', compact('deans'));
+            return view('pages.dean.index', compact('heads'));
 
         }else{
 
@@ -50,13 +37,13 @@ class DeanEvaluationController extends Controller
         }
     }
 
-    public function evaluate($id)
+    public function evaluate(DepartmentHeads $id)
     {
         $auth_user = Auth::user();
 
         if($auth_user->hasRole('faculty')){
 
-            $department_head = DepartmentHeads::find($id);
+            $head_evaluation = $id;
 
             $carbon = Carbon::now()->subHour(8);
             $time = $carbon->toDayDateTimeString();
@@ -85,12 +72,7 @@ class DeanEvaluationController extends Controller
 
             }
 
-
-
-            $dean = User::where('sjc_id', $department_head->dean_id)
-                ->first();
-
-            return view('pages.dean.evaluate', compact('dean','time','department_head','questions','for_dean','areas','semester','school_year'));
+            return view('pages.dean.evaluate', compact('time','head_evaluation','questions','for_dean','areas','semester','school_year'));
 
         }else{
 
@@ -99,7 +81,7 @@ class DeanEvaluationController extends Controller
 
     }
 
-    public function store(Request $request,$id){
+    public function store(Request $request,DepartmentHeads $id){
 
         $auth_user = Auth::user();
 
@@ -116,7 +98,7 @@ class DeanEvaluationController extends Controller
             $comments = $request->input('comments');
 
             // query record being evaluated
-            $department_head= DepartmentHeads::find($id);
+            $head_evaluation= $id;
 
             // getting specific area of evaluation
             $unique_area = array_unique ($area_id);
@@ -130,7 +112,7 @@ class DeanEvaluationController extends Controller
 
             //computing and storing evaluation answers
             $evaluation_answers = [];
-            $total_observation_rating = [];
+            $over_all_total = [];
 
             foreach ($unique_area as $ua){
                 $group = Groups::find($ua);
@@ -141,13 +123,14 @@ class DeanEvaluationController extends Controller
                 foreach ($trait_score as $ts){
                     if($ts->area_id == $ua){
                         array_push($question_score, $ts->trait_score);
+                        array_push($over_all_total, $ts->trait_score);
                         $evaluation_data[] = ['question_id'=>$ts->trait_id,'question_score'=>$ts->trait_score];
                     }
                 }
 
                 $question_items = count($question_score);
                 $sub_total = array_sum($question_score);
-                $average = round(($sub_total/$question_items), 2);;
+                $average = round(($sub_total/$question_items), 2);
                 $area_rating = round(($average*(double)('0.'.$group->percentage)),2);
 
                 $evaluation_answers[] = ['area_id' => $group->id,
@@ -158,23 +141,22 @@ class DeanEvaluationController extends Controller
                     'average' => $average,
                     'area_rating' => $area_rating,
                     'evaluation_data' => $evaluation_data];
-
-                array_push($total_observation_rating, $area_rating);
             }
 
             $evaluation[] = (object)['faculty_id'=>$auth_user->id,
                 'semester'=>$semester->value,
                 'school_year'=>$school_year->value,
-                'dean_id'=> $department_head->dean_id,
-                'total_observation_rating'=> array_sum($total_observation_rating),
+                'dean_id'=> $head_evaluation->dean_id,
+                'over_all_total'=> array_sum($over_all_total),
+                'over_all_average'=> round((array_sum($over_all_total)/count($over_all_total)), 2),
                 'evaluation_data'=>$evaluation_answers,
                 'comments' => $comments];
 
             $evaluation_json = json_encode($evaluation);
 
-            $department_head->evaluation = $evaluation_json;
-            $department_head->status = '1';
-            $department_head->save();
+            $head_evaluation->evaluation = $evaluation_json;
+            $head_evaluation->status = '1';
+            $head_evaluation->save();
 
             return redirect(route('deans.index'))->withSuccess('Your evaluation of the dean is successfully saved.');
 

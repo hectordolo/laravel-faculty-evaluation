@@ -17,7 +17,7 @@
 @endsection
 
 @section('page-content')
-    {!! Form::open(['route' => ['deans.store',$department_head->id], 'class' => '', 'data-parsley-validate']) !!}
+    {!! Form::open(['route' => ['deans.store',$head_evaluation->id], 'class' => '', 'data-parsley-validate']) !!}
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-green">
@@ -28,8 +28,8 @@
                     <div class="row">
                         <div class="form-group col-lg-3">
                             <label for="employee_name">Faculty Name:</label>
-                            <input class="form-control" name="employee_name" id="employee_name" type="text" value="{{isset($dean->last_name)?$dean->last_name.', '.$dean->first_name:'FACULTY NOT ENCODED'}}" disabled>
-                            <input class="form-control" name="sjc_id" type="hidden" value="{{isset($dean->dean_id)?$dean->dean_id:''}}">
+                            <input class="form-control" name="employee_name" id="employee_name" type="text" value="{{isset($head_evaluation->dean->last_name)?$head_evaluation->dean->last_name.', '.$head_evaluation->dean->first_name:'FACULTY NOT ENCODED'}}" disabled>
+                            <input class="form-control" name="sjc_id" type="hidden" value="{{isset($head_evaluation->dean_id)?$head_evaluation->dean_id:''}}">
                         </div>
                         <div class="form-group col-lg-3">
                             <label for="semester">Semester:</label>
@@ -71,7 +71,7 @@
                             @foreach($questions as $question)
                                 <tr class="success">
                                     <th colspan="7">
-                                        {{$question->area}} ({{$question->percentage}}%)
+                                        {{$question->area}}
                                     </th>
                                     <th style="width: 5%" class="center">1</th>
                                     <th style="width: 5%" class="center">2</th>
@@ -107,7 +107,11 @@
                     <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-10">
                             <a href="{{ route('deans.index') }}" type="button" class="btn btn-primary">Cancel</a>
+                            <!--
                             <a type="button" data-toggle="modal" data-target="#confirmModal" class="btn btn-success">Save</a>
+                            -->
+                            {!! Form::submit('Save', ['class' => 'btn btn-success btn-flat']) !!}
+                            {!! Form::close() !!}
                         </div>
                     </div>
 

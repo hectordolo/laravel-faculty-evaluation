@@ -59,6 +59,7 @@ class AssignHeadController extends Controller
                 ]);
 
             return redirect(route('assign.index',$user))->withSuccess('Department head assignment has been updated.');
+            //return redirect(route('users.index'))->withSuccess('Department head assignment has been updated.');
 
         }else{
             return redirect()->route('four.zero.five');

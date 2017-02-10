@@ -37,22 +37,6 @@ Route::group(['prefix' => 'profile'], function () {
     Route::post('/update', ['as' => 'profile.update','uses' => 'ProfileController@update']);
 });
 
-Route::group(['prefix' => 'employees'], function () {
-    Route::get('/', ['as' => 'employees.index','uses' => 'EmployeesController@index']);
-    Route::get('/add', ['as' => 'employees.add','uses' => 'EmployeesController@add']);
-    Route::get('/edit/{employee}', ['as' => 'employees.edit','uses' => 'EmployeesController@edit']);
-    Route::get('/search', ['as' => 'employees.search','uses' => 'EmployeesController@search']);
-    Route::post('/store',['as' => 'employees.store','uses' => 'EmployeesController@store']);
-    Route::patch('/patch/{question}',['as' => 'employees.update','uses' => 'EmployeesController@update']);
-    Route::delete('/delete/{employee}',['as' => 'employees.destroy','uses' => 'EmployeesController@destroy']);
-});
-
-Route::group(['prefix' => 'students'], function () {
-    Route::get('/', ['as' => 'students.index','uses' => 'StudentsController@index']);
-    Route::get('/search', ['as' => 'students.search','uses' => 'StudentsController@search']);
-    Route::delete('/delete/{student}',['as' => 'students.destroy','uses' => 'StudentsController@destroy']);
-});
-
 Route::group(['prefix' => 'questions'], function () {
     Route::get('/', ['as' => 'questions.index','uses' => 'QuestionsController@index']);
     Route::get('/add', ['as' => 'questions.add','uses' => 'QuestionsController@add']);
@@ -132,4 +116,12 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/store',['as' => 'users.store','uses' => 'UsersController@store']);
     Route::patch('/patch/{user}',['as' => 'users.update','uses' => 'UsersController@update']);
     Route::delete('/delete/{user}',['as' => 'users.destroy','uses' => 'UsersController@destroy']);
+});
+
+Route::group(['prefix' => 'deans_reports'], function () {
+    Route::get('/', ['as' => 'deans_reports.index','uses' => 'DeanReportsController@index']);
+});
+
+Route::group(['prefix' => 'faculty_reports'], function () {
+    Route::get('/', ['as' => 'faculty_reports.index','uses' => 'FacultyReportsController@index']);
 });

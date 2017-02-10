@@ -128,15 +128,7 @@
 
                 @ability('system-administrator,user-manager', 'users-read,users-migrate')
 
-                    <li><a href="#"><i class="fa fa-users"></i> Users Management <span class="fa arrow"></span></a>
-
-                        <ul class="nav nav-second-level">
-
-                            <li><a href="{{route('employees.index')}}">Employees Lists</a></li>
-                            <li><a href="{{route('students.index')}}">Students Lists</a></li>
-                            <li><a href="{{route('users.index')}}">All Users</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> Users Management</a></li>
                 @endability
 
                 @role(['system-administrator','reports'])
@@ -144,8 +136,8 @@
                 <li><a href="#"><i class="fa fa-bar-chart-o"></i> Evaluation Result<span class="fa arrow"></span></a>
 
                     <ul class="nav nav-second-level">
-                        <li><a href="#">Dean Evaluation Results</a></li>
-                        <li><a href="#">Faculty Evaluation Results</a></li>
+                        <li><a href="{{route('deans_reports.index')}}">Dean Evaluation Results</a></li>
+                        <li><a href="{{route('faculty_reports.index')}}">Faculty Evaluation Results</a></li>
                     </ul>
                 </li>
                 @endrole
