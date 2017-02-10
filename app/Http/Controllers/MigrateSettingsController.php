@@ -155,28 +155,28 @@ class MigrateSettingsController extends Controller
 
                 $raw_data = DB::connection('shs')
                     ->select("SELECT
-                                registrations.studentcode as sjc_id,
-                                registrations.sectioncode as section_code,
-                                registrations.subjectcode as subject_code,
+                                preregistrations.studentcode as sjc_id,
+                                preregistrations.sectioncode as section_code,
+                                preregistrations.subjectcode as subject_code,
                                 sectionssubjects.employeecode as employee_code,
                                 (SELECT CONCAT(lname,', ',fname) 
                                       FROM employees 
                                       WHERE employeecode = sectionssubjects.employeecode) as employee_name,
                                 '0' as `status`,
-                                registrations.semester,
-                                registrations.schoolyear
+                                preregistrations.semester,
+                                preregistrations.schoolyear
                             FROM
-                                registrations
+                                preregistrations
                             INNER JOIN
                                 sectionssubjects
                             ON
-                                sectionssubjects.sectioncode = registrations.sectioncode
+                                sectionssubjects.sectioncode = preregistrations.sectioncode
                             AND
-                                sectionssubjects.subjectcode = registrations.subjectcode
+                                sectionssubjects.subjectcode = preregistrations.subjectcode
                             WHERE
-                                registrations.semester = '$semester->value'
+                                preregistrations.semester = '$semester->value'
                             AND
-                                registrations.schoolyear = '$school_year->value'");
+                                preregistrations.schoolyear = '$school_year->value'");
 
 
                 $record = MigrationOptions::find(3);
@@ -333,23 +333,23 @@ class MigrateSettingsController extends Controller
                 $raw_data = DB::connection('shs')
                     ->select("SELECT 
                                 DISTINCT
-                                    registrations.studentcode as sjc_id,
+                                    preregistrations.studentcode as sjc_id,
                                     students.lname as last_name,
                                     students.fname as first_name,
                                     students.degreecode as course,
                                     students.schoolcode as school_of 
                                 FROM
-                                    registrations
+                                    preregistrations
                                 
                                 INNER JOIN
                                     students
                                 ON
-                                    registrations.studentcode = students.studentcode
+                                    preregistrations.studentcode = students.studentcode
                                     
                                 WHERE
-                                    registrations.semester = '$semester->value'
+                                    preregistrations.semester = '$semester->value'
                                 AND
-                                    registrations.schoolyear = '$school_year->value'");
+                                    preregistrations.schoolyear = '$school_year->value'");
 
 
                 $record = MigrationOptions::find(6);

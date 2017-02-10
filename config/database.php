@@ -68,11 +68,11 @@ return [
 
         'college' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => '172.20.100.251',
             'port' => '3306',
             'database' => 'ies',
-            'username' => 'root',
-            'password' => '',
+            'username' => 'admin',
+            'password' => 'admin',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

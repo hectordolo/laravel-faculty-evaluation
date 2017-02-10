@@ -12,4 +12,9 @@ class RoleUser extends Model
         'user_id',
         'role_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

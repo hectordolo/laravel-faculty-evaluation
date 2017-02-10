@@ -115,7 +115,13 @@ Route::group(['prefix' => 'deans'], function () {
 Route::group(['prefix' => 'faculty'], function () {
     Route::get('/', ['as' => 'faculty.index','uses' => 'FacultyEvaluationController@index']);
     Route::get('/evaluate/{migration_record_id}', ['as' => 'faculty.evaluate','uses' => 'FacultyEvaluationController@evaluate']);
-    Route::post('/store/{subject_code}/{section_code}}',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
+    Route::post('/store/{subject_code}/{section_code}',['as' => 'faculty.store','uses' => 'FacultyEvaluationController@store']);
+});
+
+Route::group(['prefix' => 'assign'], function () {
+    Route::get('/{user}', ['as' => 'assign.index','uses' => 'AssignHeadController@index']);
+    Route::get('/store/{user}/{dean}',['as' => 'assign.store','uses' => 'AssignHeadController@store']);
+    Route::get('/delete/{user}/{dean}',['as' => 'assign.delete','uses' => 'AssignHeadController@delete']);
 });
 
 Route::group(['prefix' => 'users'], function () {

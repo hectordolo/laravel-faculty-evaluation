@@ -10,8 +10,6 @@
 
 @section('page-content')
 
-    @include('flash::message')
-
     <a href="{{ route('users.add') }}" type="button" class="btn btn-sm btn-success">Add User</a>
 
     <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right top_search">
@@ -37,7 +35,7 @@
                             <th class="column-title">School Code</th>
                             <th class="column-title">Type </th>
                             <th class="column-title">School 0f</th>
-                            <th class="column-title" style="width: 10%">Action</th>
+                            <th class="column-title" style="width: 15%">Action</th>
                         </tr>
                     </thead>
 
@@ -51,6 +49,7 @@
                                 <td class=" ">{{isset($user->type)?$user->type:''}}</td>
                                 <td class=" ">{{isset($user->school_of)?$user->school_of:''}}</td>
                                 <td>
+                                    <a href="{{route('assign.index', [$user->id])}}" title="Choose Head" class="btn btn-default btn-sm"><i class="fa fa-male"></i></a>
                                     <a href="{{route('users.edit', [$user->id])}}" title="Edit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></a>
                                     <a type="button" class="btn btn-default btn-sm" title="Delete User" data-toggle="modal" data-target="#deleteModal{{ $user->id }}"><i class="fa fa-trash"></i></a>
                                     <div id="deleteModal{{ $user->id }}" class="modal fade" role="dialog">

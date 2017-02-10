@@ -139,6 +139,17 @@
                     </li>
                 @endability
 
+                @role(['system-administrator','reports'])
+
+                <li><a href="#"><i class="fa fa-bar-chart-o"></i> Evaluation Result<span class="fa arrow"></span></a>
+
+                    <ul class="nav nav-second-level">
+                        <li><a href="#">Dean Evaluation Results</a></li>
+                        <li><a href="#">Faculty Evaluation Results</a></li>
+                    </ul>
+                </li>
+                @endrole
+
                 @role('system-administrator')
                     <li><a href="#"><i class="fa fa-gears"></i> Settings <span class="fa arrow"></span></a>
 

@@ -13,6 +13,7 @@ class MigrateRecords extends Model
         'subject_code',
         'section_code',
         'employee_code',
+        'employee_name',
         'status',
         'semester',
         'school_year',

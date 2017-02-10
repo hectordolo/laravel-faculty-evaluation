@@ -53,5 +53,12 @@ class RolesTableSeeder extends Seeder
             'display_name' => 'Student',
             'description' => 'This user role is for the students of sjc who will be evaluating their instructors and professors.'
         ]);
+
+        DB::table('roles')->insert([
+            'id' => '7',
+            'name' => 'reports',
+            'display_name' => 'View Reports',
+            'description' => 'The user can view Result of Evaluation.'
+        ]);
     }
 }

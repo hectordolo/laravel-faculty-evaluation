@@ -21,5 +21,16 @@ class UsersTableSeeder extends Seeder
             'school_code' => '',
             'type' => 'EMPLOYEE'
         ]);
+
+        DB::table('users')->insert([
+            'id' => '2',
+            'sjc_id' => '2016051608',
+            'last_name' => 'WOO',
+            'first_name' => 'RAMON',
+            'username' => '2016051608',
+            'password' => bcrypt('2016051608'),
+            'school_code' => '',
+            'type' => 'EMPLOYEE'
+        ]);
     }
 }

@@ -16,10 +16,6 @@
 
 @section('page-content')
 
-    @foreach($test as $v)
-        @foreach($v->evaluation_data as $c)
-            {{$c->area_name}}
-        @endforeach
-    @endforeach
+    {{var_dump($heads)}}
 
 @endsection
