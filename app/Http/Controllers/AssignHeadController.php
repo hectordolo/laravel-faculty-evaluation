@@ -50,12 +50,18 @@ class AssignHeadController extends Controller
 
         $auth_user = Auth::user();
 
+        $semester = GlobalVariables::where('name','semester')->first();
+        $school_year = GlobalVariables::where('name','school_year')->first();
+
+
         if($auth_user->hasRole(['system-administrator','user-manager'])) {
 
                 $faculty_head = DepartmentHeads::insert([
                     'faculty_id' => $user,
                     'dean_id' => $dean,
-                    'status' => '0'
+                    'status' => '0',
+                    'semester' => $semester->value,
+                    'school_year' => $school_year->value
                 ]);
 
             return redirect(route('assign.index',$user))->withSuccess('Department head assignment has been updated.');
@@ -71,13 +77,18 @@ class AssignHeadController extends Controller
 
         $auth_user = Auth::user();
 
+        $semester = GlobalVariables::where('name','semester')->first();
+        $school_year = GlobalVariables::where('name','school_year')->first();
+
         if($auth_user->hasRole(['system-administrator','user-manager'])) {
 
             $faculty_head = DepartmentHeads::where('faculty_id', $user)
                 ->where('dean_id', $dean)
+                ->where('semester', $semester->value)
+                ->where('school_year', $school_year->value)
                 ->delete();
 
-            return redirect(route('assign.index',$user))->withSuccess('Department head is removed.');
+            return redirect(route('assign.index',$user))->withSuccess('Department head assigned is removed.');
 
         }else{
             return redirect()->route('four.zero.five');

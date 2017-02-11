@@ -36,6 +36,14 @@
         });
     </script>
 
+    <style>
+        @media print{
+            .no-print{
+                display: none;
+            }
+        }
+    </style>
+
     @yield('header-scripts')
 
 </head>

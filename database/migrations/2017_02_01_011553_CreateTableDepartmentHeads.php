@@ -18,6 +18,8 @@ class CreateTableDepartmentHeads extends Migration
             $table->string('faculty_id');
             $table->string('dean_id');
             $table->integer('status');
+            $table->string('semester');
+            $table->string('school_year');
             $table->text('evaluation')->nullable();
             $table->timestamps();
         });

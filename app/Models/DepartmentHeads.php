@@ -12,7 +12,9 @@ class DepartmentHeads extends Model
         'faculty_id',
         'dean_id',
         'status',
-        'evaluation'
+        'evaluation',
+        'semester',
+        'school_year'
     ];
 
     public function dean()

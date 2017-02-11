@@ -49,7 +49,9 @@
                                 <td class=" ">{{isset($user->type)?$user->type:''}}</td>
                                 <td class=" ">{{isset($user->school_of)?$user->school_of:''}}</td>
                                 <td>
-                                    <a href="{{route('assign.index', [$user->id])}}" title="Choose Head" class="btn btn-default btn-sm"><i class="fa fa-male"></i></a>
+                                    @if($user->type!='STUDENT')
+                                        <a href="{{route('assign.index', [$user->id])}}" title="Choose Head" class="btn btn-default btn-sm"><i class="fa fa-male"></i></a>
+                                    @endif
                                     <a href="{{route('users.edit', [$user->id])}}" title="Edit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i></a>
                                     <a type="button" class="btn btn-default btn-sm" title="Delete User" data-toggle="modal" data-target="#deleteModal{{ $user->id }}"><i class="fa fa-trash"></i></a>
                                     <div id="deleteModal{{ $user->id }}" class="modal fade" role="dialog">
