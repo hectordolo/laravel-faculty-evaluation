@@ -47,8 +47,6 @@ class DeanReportsController extends Controller
 
             $dean = User::find($id);
 
-            $data = [];
-
             $dean_reports = DepartmentHeads::where('dean_id', $id)
                 ->where('semester', $semester->value)
                 ->where('school_year', $school_year->value)
@@ -94,7 +92,6 @@ class DeanReportsController extends Controller
             if(!empty($average_count)){
                 $average_value = round(($average_total/$average_count),2);
             }
-
 
             $average[] = [
                 'average_value' => $average_value,

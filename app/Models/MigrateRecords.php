@@ -20,4 +20,9 @@ class MigrateRecords extends Model
         'school_code',
         'evaluation'
     ];
+
+    public function student()
+    {
+        return $this->belongsTo('App\User', 'sjc_id','sjc_id');
+    }
 }

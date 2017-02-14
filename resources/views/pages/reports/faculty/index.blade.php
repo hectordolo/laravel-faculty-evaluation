@@ -60,6 +60,7 @@
                     <span class="pull-right">{!! $faculties->setPath('')->appends(Input::query())->render() !!}</span>
                 </div>
             </div>
+
         </div>
     </div>
 

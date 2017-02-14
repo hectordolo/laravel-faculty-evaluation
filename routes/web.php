@@ -130,4 +130,6 @@ Route::group(['prefix' => 'faculty_reports'], function () {
     Route::get('/', ['as' => 'faculty_reports.index','uses' => 'FacultyReportsController@index']);
     Route::get('/view/{id}', ['as' => 'faculty_reports.view','uses' => 'FacultyReportsController@view']);
     Route::get('/search', ['as' => 'faculty_reports.search','uses' => 'FacultyReportsController@search']);
+    Route::get('/details/{detail_id}/{faculty_id}', ['as' => 'faculty_reports.details','uses' => 'FacultyReportsController@details']);
+    Route::delete('/destroy/{id}', ['as' => 'faculty_reports.destroy','uses' => 'FacultyReportsController@destroy']);
 });

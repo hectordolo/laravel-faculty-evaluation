@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('title')
-    Faculty List
+    Students Lists
 @endsection
 
 @section('page-header')
     {{$detail[0]['title']}}
-    <a href="{{ route('deans_reports.view',$dean->id) }}" type="button" class="btn btn-sm btn-success">Go Back</a>
+    <a href="{{ route('faculty_reports.view',$faculty->id) }}" type="button" class="btn btn-sm btn-success">Go Back</a>
 @endsection
 
 @section('page-content')
@@ -18,31 +18,35 @@
                     <thead>
                     <tr class="headings">
                         <th class="column-title" style="width: 5%">#</th>
-                        <th class="column-title" style="width: 15%">Faculty ID</th>
+                        <th class="column-title" style="width: 15%">Student ID</th>
                         <th class="column-title">Last Name</th>
                         <th class="column-title">First Name</th>
+                        <th class="column-title">Subject Code</th>
+                        <th class="column-title">Section Code</th>
                         <th class="column-title"style="width: 20%">Status</th>
                         <th class="column-title" style="width: 5%">Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @foreach($faculties as $key=>$faculty)
+                    @foreach($students as $key=>$student)
                         <tr>
                             <td>{{$key+1}}</td>
-                            <td>{{$faculty->sjc_id}}</td>
-                            <td>{{$faculty->last_name}}</td>
-                            <td>{{$faculty->first_name}}</td>
+                            <td>{{$student->sjc_id}}</td>
+                            <td>{{$student->last_name}}</td>
+                            <td>{{$student->first_name}}</td>
+                            <td>{{$student->subject_code}}</td>
+                            <td>{{$student->section_code}}</td>
                             <td>
-                                @if($faculty->status==0)
+                                @if($student->status==0)
                                     [EVALUATION NOT DONE]
                                 @else
-                                    [AVERAGE RATING: {{$faculty->rating}}]
+                                    [AVERAGE RATING: {{$student->rating}}]
                                 @endif
                             </td>
                             <td>
-                                <a type="button" class="btn btn-default btn-sm" title="Delete User" data-toggle="modal" data-target="#deleteModal{{ $faculty->id }}"><i class="fa fa-trash"></i></a>
-                                <div id="deleteModal{{ $faculty->id }}" class="modal fade" role="dialog">
+                                <a type="button" class="btn btn-default btn-sm" title="Delete User" data-toggle="modal" data-target="#deleteModal{{ $student->id }}"><i class="fa fa-trash"></i></a>
+                                <div id="deleteModal{{ $student->id }}" class="modal fade" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -51,7 +55,7 @@
                                             </div>
                                             <div class="modal-body">
 
-                                                @if($faculty->status==1)
+                                                @if($student->status==1)
                                                     <p>This faculty already casted his/her evaluation?</p>
                                                     <p>This cannot be undone?</p>
                                                 @endif
@@ -60,7 +64,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                                {!! Form::open(['route' => ['deans_reports.destroy', $faculty->id], 'method' => 'delete']) !!}
+                                                {!! Form::open(['route' => ['faculty_reports.destroy', $student->id], 'method' => 'delete']) !!}
                                                 {!! Form::submit('Yes', ['class' => 'btn btn-success btn-flat']) !!}
                                                 {!! Form::close() !!}
                                             </div>

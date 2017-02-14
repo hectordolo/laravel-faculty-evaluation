@@ -19,14 +19,14 @@
                             <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$faculty_number}}</div>
                             <div>Total Students Evaluating</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
-                        <a href="#">
+                    <div class="panel-footer no-print">
+                        <a href="{{route('faculty_reports.details', [1, $faculty->id])}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         </a>
@@ -43,14 +43,14 @@
                             <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$done_evaluating}}</div>
                             <div>Done Evaluating</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
-                        <a href="#">
+                    <div class="panel-footer no-print">
+                        <a href="{{route('faculty_reports.details', [2, $faculty->id])}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
@@ -67,13 +67,13 @@
                             <i class="fa fa-user fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$not_done_evaluating}}</div>
                             <div>Not Done Evaluating</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <a href="#">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -91,13 +91,13 @@
                             <i class="fa fa-star fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$average[0]['average_value']}}</div>
                             <div>Average Rating</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
@@ -114,13 +114,13 @@
                             <i class="fa fa-chevron-circle-up fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$average[0]['average_highest']}}</div>
                             <div>Highest Evaluation</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
@@ -137,13 +137,13 @@
                             <i class="fa fa-chevron-circle-down fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
+                            <div class="huge">{{$average[0]['average_lowest']}}</div>
                             <div>Lowest Evaluation</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
@@ -157,16 +157,16 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-user fa-5x"></i>
+                            <i class="fa fa-list-alt fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
-                            <div>Done Evaluating</div>
+                            <div class="huge">{{$number_sections}}</div>
+                            <div>Number of Sections</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <a href="#">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -182,16 +182,16 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-users fa-5x"></i>
+                            <i class="fa fa-book fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
-                            <div>Total Students Evaluating</div>
+                            <div class="huge">{{$number_subjects}}</div>
+                            <div>Number of Subjects</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
-                    <div class="panel-footer">
+                    <div class="panel-footer no-print">
                         <a href="#">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -209,7 +209,13 @@
                     Comments
                 </div>
                 <div class="panel-body">
-
+                    @if(!empty($comments_data))
+                        @foreach($comments_data as $key=>$value)
+                            <p>{{$key+1}}. {{$value}}</p>
+                        @endforeach
+                    @else
+                        <p>NO COMMENTS AVAILABLE</p>
+                    @endif
                 </div>
             </div>
             <!-- /.col-lg-4 -->
