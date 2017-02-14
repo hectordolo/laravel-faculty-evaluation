@@ -125,7 +125,7 @@ class FacultyReportsController extends Controller
             if($detail_id == 1){
 
                 $detail[] = [
-                    'title' => 'List of Students Evaluating: '. $faculty->last_name.', '. $faculty->first_name
+                    'title' => 'List of Students Evaluating '. $faculty->last_name.', '. $faculty->first_name
                 ];
 
                 $students_raw = MigrateRecords::where('employee_code', $faculty->sjc_id)
@@ -164,10 +164,10 @@ class FacultyReportsController extends Controller
             }elseif($detail_id==2){
 
                 $detail[] = [
-                    'title' => 'List of Students Done Evaluating: '. $faculty->last_name.', '. $faculty->first_name
+                    'title' => 'List of Students not Done evaluating '. $faculty->last_name.', '. $faculty->first_name
                 ];
 
-                $students_raw = MigrateRecords::where('employee_code', $faculty->employee_code)
+                $students_raw = MigrateRecords::where('employee_code', $faculty->sjc_id)
                     ->where('semester', $semester->value)
                     ->where('school_year', $school_year->value)
                     ->where('status', 1)
@@ -182,7 +182,7 @@ class FacultyReportsController extends Controller
                         $evaluation_data = json_decode($v->evaluation);
 
                         foreach($evaluation_data as $value){
-                            $rating = $value->over_all_average;
+                            $rating = $value->total_observation_rating;
                         }
                     }
 
@@ -204,40 +204,123 @@ class FacultyReportsController extends Controller
             }else{
 
                 $detail[] = [
-                    'title' => 'List of Faculty Not Done Evaluating: '. $dean->last_name.', '. $dean->first_name
+                    'title' => 'List of Students Done Evaluating  '. $faculty->last_name.', '. $faculty->first_name
                 ];
 
-                $faculties_raw = DepartmentHeads::where('dean_id', $dean_id)
+                $students_raw = MigrateRecords::where('employee_code', $faculty->sjc_id)
                     ->where('semester', $semester->value)
                     ->where('school_year', $school_year->value)
                     ->where('status', 0)
                     ->get();
 
-                $faculties = [];
+                $students = [];
 
-                foreach($faculties_raw as $v){
+                foreach($students_raw as $v){
                     $rating ='';
 
                     if($v->status==1){
                         $evaluation_data = json_decode($v->evaluation);
 
                         foreach($evaluation_data as $value){
-                            $rating = $value->over_all_average;
+                            $rating = $value->total_observation_rating;
                         }
                     }
 
-                    $faculties[] = (object)[
+                    $students[] = (object)[
                         'id' => $v->id,
-                        'sjc_id' => $v->faculty->sjc_id,
-                        'last_name' => $v->faculty->last_name,
-                        'first_name' => $v->faculty->first_name,
+                        'sjc_id' => $v->student->sjc_id,
+                        'last_name' => $v->student->last_name,
+                        'first_name' => $v->student->first_name,
+                        'subject_code' => $v->subject_code,
+                        'section_code' => $v->section_code,
                         'status' => $v->status,
                         'rating' => $rating
                     ];
                 }
 
 
-                return view('pages.reports.dean.details', compact('detail','faculties','dean'));
+                return view('pages.reports.faculty.details', compact('detail','students','faculty'));
+            }
+
+        }else{
+            return redirect()->route('four.zero.five');
+        }
+    }
+
+    public function rating($rating_id, $faculty_id){
+        $auth_user = Auth::user();
+
+        if($auth_user->hasRole(['system-administrator','reports'])){
+
+            $faculty = User::find($faculty_id);
+
+            if($rating_id == 1){
+
+                $detail[] = [
+                    'title' => 'Average Rating Details '. $faculty->last_name.', '. $faculty->first_name
+                ];
+
+                $average_details = [];
+
+                $raw_data  = MigrateRecords::select('section_code','subject_code')
+                    ->where('employee_code', $faculty->sjc_id)
+                    ->groupBy('section_code')
+                    ->groupBy('subject_code')
+                    ->get();
+
+                $average_raw = [];
+
+                foreach ($raw_data as $value){
+
+                    $total = MigrateRecords::where('employee_code', $faculty->sjc_id)
+                        ->where('section_code',$value->section_code)
+                        ->where('subject_code',$value->subject_code)
+                        ->get();
+
+                    $total_students_raw = [];
+                    $total_rating_raw =[];
+                    $done_evaluation_raw = [];
+
+                    foreach ($total as $value){
+
+                        $evaluation_data = json_decode($value->evaluation);
+
+                        if(!empty($evaluation_data)){
+                            foreach($evaluation_data as $ev){
+                                array_push($done_evaluation_raw, $ev->student_id);
+                                array_push($total_rating_raw, $ev->total_observation_rating);
+                                array_push($average_raw, $ev->total_observation_rating);
+                            }
+                        }else{
+                            array_push($total_students_raw, $value->id);
+                        }
+                    }
+
+                    $count = count($total_students_raw);
+                    $done_evaluation = count($done_evaluation_raw);
+                    $total_rating = array_sum($total_rating_raw);
+
+                    $average_details[]=(object)[
+                        'section_code' => $value->section_code,
+                        'subject_code' => $value->subject_code,
+                        'total_students' => $count,
+                        'done_evaluation' => !empty($done_evaluation)?$done_evaluation:'0',
+                        'total_rating' => !empty($total_rating)?$total_rating:'---',
+                        'average_rating' => !empty($total_rating)?round($total_rating/$done_evaluation,2):'---'
+                    ];
+
+
+
+                }
+
+                $total_count = count($average_raw);
+                $total_sum = array_sum($average_raw);
+
+                $average = !empty($total_count)?round($total_sum/$total_count,2):'0';
+
+                return view('pages.reports.faculty.rating', compact('detail','faculty','average_details','average'));
+            }else{
+
             }
 
         }else{
@@ -254,11 +337,12 @@ class FacultyReportsController extends Controller
             $user_ids = RoleUser::where('role_id', 5)
                 ->pluck('user_id');
 
-            $faculties = User::whereIn('id', $user_ids)
-                ->orWhere('first_name', 'LIKE', '%'.$request->get('search').'%')
+            $faculties = User::where('first_name', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('last_name', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('sjc_id', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('school_of', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('school_code', 'LIKE', '%'.$request->get('search').'%')
+                ->whereIn('id', $user_ids)
                 ->paginate(50);
 
             return view('pages.reports.faculty.index', compact('faculties','user_ids'));

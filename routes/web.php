@@ -123,6 +123,7 @@ Route::group(['prefix' => 'deans_reports'], function () {
     Route::get('/view/{id}', ['as' => 'deans_reports.view','uses' => 'DeanReportsController@view']);
     Route::get('/search', ['as' => 'deans_reports.search','uses' => 'DeanReportsController@search']);
     Route::get('/details/{detail_id}/{dean_id}', ['as' => 'deans_reports.details','uses' => 'DeanReportsController@details']);
+    Route::get('/rating/{detail_id}/{dean_id}', ['as' => 'deans_reports.rating','uses' => 'DeanReportsController@rating']);
     Route::delete('/destroy/{id}', ['as' => 'deans_reports.destroy','uses' => 'DeanReportsController@destroy']);
 });
 
@@ -131,5 +132,6 @@ Route::group(['prefix' => 'faculty_reports'], function () {
     Route::get('/view/{id}', ['as' => 'faculty_reports.view','uses' => 'FacultyReportsController@view']);
     Route::get('/search', ['as' => 'faculty_reports.search','uses' => 'FacultyReportsController@search']);
     Route::get('/details/{detail_id}/{faculty_id}', ['as' => 'faculty_reports.details','uses' => 'FacultyReportsController@details']);
+    Route::get('/rating/{detail_id}/{faculty_id}', ['as' => 'faculty_reports.rating','uses' => 'FacultyReportsController@rating']);
     Route::delete('/destroy/{id}', ['as' => 'faculty_reports.destroy','uses' => 'FacultyReportsController@destroy']);
 });

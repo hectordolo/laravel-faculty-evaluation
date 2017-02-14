@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$faculty_number}}</div>
-                            <div>Total Evaluation</div>
+                            <div>Total Faculty</div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$done_evaluating}}</div>
-                            <div>Evaluation </div>
+                            <div>Faculty Completed</div>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$not_done_evaluating}}</div>
-                            <div>Not Done Evaluating</div>
+                            <div>Faculty Not Completed</div>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{route('deans_reports.rating', [1, $dean->id])}}">
                     <div class="panel-footer no-print">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -119,13 +119,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
             </div>
         </div>
 
@@ -142,13 +135,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
             </div>
         </div>
     </div>

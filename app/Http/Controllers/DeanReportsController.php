@@ -7,6 +7,7 @@ use App\Models\DepartmentHeads;
 use App\Models\GlobalVariables;
 use App\Models\RoleUser;
 use App\User;
+use App\Models\Groups;
 
 use Auth;
 
@@ -26,7 +27,10 @@ class DeanReportsController extends Controller
 
         if($auth_user->hasRole(['system-administrator','reports'])){
 
-            $heads = RoleUser::where('role_id', 4)
+            $user_ids = RoleUser::where('role_id', 4)
+                ->pluck('user_id');
+
+            $heads = User::whereIn('id', $user_ids)
                 ->paginate(50);
 
             return view('pages.reports.dean.index', compact('heads'));
@@ -34,6 +38,30 @@ class DeanReportsController extends Controller
             return redirect()->route('four.zero.five');
         }
 
+    }
+
+    public function search(Request $request){
+
+        $auth_user = Auth::user();
+
+        if($auth_user->hasRole(['system-administrator','reports'])){
+
+            $user_ids = RoleUser::where('role_id', 4)
+                ->pluck('user_id');
+
+            $heads = User::whereIn('id', $user_ids)
+                ->where('first_name', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('last_name', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('sjc_id', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('school_of', 'LIKE', '%'.$request->get('search').'%')
+                ->orWhere('school_code', 'LIKE', '%'.$request->get('search').'%')
+                ->paginate(50);
+
+            return view('pages.reports.dean.index', compact('heads'));
+
+        }else{
+            return redirect()->route('four.zero.five');
+        }
     }
 
     public function view($id){
@@ -233,6 +261,80 @@ class DeanReportsController extends Controller
             return redirect()->route('four.zero.five');
         }
     }
+
+    public function rating($rating_id, $dean_id){
+
+        $auth_user = Auth::user();
+
+        if($auth_user->hasRole(['system-administrator','reports'])){
+
+            $dean = User::find($dean_id);
+
+            if($rating_id == 1){
+
+                $detail[] = [
+                    'title' => 'Average Rating Details '. $dean->last_name.', '. $dean->first_name
+                ];
+
+                $average_details = [];
+                $average_values = [];
+                $raw_data  = DepartmentHeads::where('dean_id',$dean_id)
+                    ->get();
+
+                $headers = Groups::where('for_id', 2)
+                    ->where('active',1)
+                    ->orderBy('priority', 'asc')
+                    ->get();
+
+                foreach ($raw_data as $value){
+
+                    $area_data = [];
+
+                    $evaluation_data = json_decode($value->evaluation);
+
+                    if(!empty($evaluation_data)){
+                        foreach ($evaluation_data as $ev){
+                            $evd = [];
+                            foreach ($ev->evaluation_data as $ed){
+                                $evd[]=(object)[
+                                    'area_average' => $ed->average,
+                                    'area_name' => $ed->area_name
+                                ];
+                            }
+
+                            $area_data[] = (object)[
+                                'average_rating' => $ev->over_all_average,
+                                'evaluation_data' => $evd
+                            ];
+
+                            array_push($average_values,$ev->over_all_average);
+                        }
+                    }
+
+
+                    $average_details[]=(object)[
+                        'faculty_name' => $value->faculty->last_name.', '.$value->faculty->first_name,
+                        'area_ratings' => $area_data
+                    ];
+
+
+                }
+
+                $total_count = count($average_values);
+                $total_sum = array_sum($average_values);
+
+                $average = !empty($total_count)?round($total_sum/$total_count,2):'0';
+
+                return view('pages.reports.dean.rating', compact('detail','dean','average_details','average','headers'));
+            }else{
+
+            }
+
+        }else{
+            return redirect()->route('four.zero.five');
+        }
+    }
+
 
     public function destroy(DepartmentHeads $id){
 

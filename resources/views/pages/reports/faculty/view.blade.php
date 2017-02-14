@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$faculty_number}}</div>
-                            <div>Total Students Evaluating</div>
+                            <div>Total Students</div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$done_evaluating}}</div>
-                            <div>Done Evaluating</div>
+                            <div>Students Completed</div>
                         </div>
                     </div>
                 </div>
@@ -68,13 +68,13 @@
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{$not_done_evaluating}}</div>
-                            <div>Not Done Evaluating</div>
+                            <div>Students Not Completed</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
                     <div class="panel-footer no-print">
-                        <a href="#">
+                        <a href="{{route('faculty_reports.details', [3, $faculty->id])}}">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{route('faculty_reports.rating', [1, $faculty->id])}}">
                     <div class="panel-footer no-print">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -119,13 +119,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
             </div>
         </div>
 
@@ -142,13 +135,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
             </div>
         </div>
 
@@ -165,15 +151,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <a href="#">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                </a>
             </div>
         </div>
 
@@ -190,15 +167,6 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
-                    <div class="panel-footer no-print">
-                        <a href="#">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        </a>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
             </div>
         </div>
     </div>
