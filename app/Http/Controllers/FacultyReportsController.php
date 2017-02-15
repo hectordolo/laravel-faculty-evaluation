@@ -309,8 +309,6 @@ class FacultyReportsController extends Controller
                         'average_rating' => !empty($total_rating)?round($total_rating/$done_evaluation,2):'---'
                     ];
 
-
-
                 }
 
                 $total_count = count($average_raw);
@@ -337,12 +335,12 @@ class FacultyReportsController extends Controller
             $user_ids = RoleUser::where('role_id', 5)
                 ->pluck('user_id');
 
-            $faculties = User::where('first_name', 'LIKE', '%'.$request->get('search').'%')
+            $faculties = User::whereIn('id', $user_ids)
+                ->where('first_name', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('last_name', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('sjc_id', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('school_of', 'LIKE', '%'.$request->get('search').'%')
                 ->orWhere('school_code', 'LIKE', '%'.$request->get('search').'%')
-                ->whereIn('id', $user_ids)
                 ->paginate(50);
 
             return view('pages.reports.faculty.index', compact('faculties','user_ids'));

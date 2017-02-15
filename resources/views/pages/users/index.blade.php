@@ -73,6 +73,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <a href="{{route('has_roles.edit', [$user->id])}}" title="User Roles" class="btn btn-default btn-sm"><i class="fa fa-key"></i></a>
                                 </td>
                             </tr>
                         @endforeach

@@ -45,7 +45,6 @@ class DeanReportsController extends Controller
         $auth_user = Auth::user();
 
         if($auth_user->hasRole(['system-administrator','reports'])){
-
             $user_ids = RoleUser::where('role_id', 4)
                 ->pluck('user_id');
 
@@ -58,7 +57,6 @@ class DeanReportsController extends Controller
                 ->paginate(50);
 
             return view('pages.reports.dean.index', compact('heads'));
-
         }else{
             return redirect()->route('four.zero.five');
         }
@@ -286,6 +284,10 @@ class DeanReportsController extends Controller
                     ->orderBy('priority', 'asc')
                     ->get();
 
+                foreach ($headers as $key=>$header){
+                    $scores[$key][] = [];
+                }
+
                 foreach ($raw_data as $value){
 
                     $area_data = [];
@@ -300,6 +302,12 @@ class DeanReportsController extends Controller
                                     'area_average' => $ed->average,
                                     'area_name' => $ed->area_name
                                 ];
+
+                                foreach ($headers as $key=>$header){
+                                    if($header->id == $ed->area_id){
+                                        array_push($scores[$key], $ed->average);
+                                    }
+                                }
                             }
 
                             $area_data[] = (object)[
@@ -316,8 +324,20 @@ class DeanReportsController extends Controller
                         'faculty_name' => $value->faculty->last_name.', '.$value->faculty->first_name,
                         'area_ratings' => $area_data
                     ];
+                }
 
+                foreach ($headers as $key=>$header){
 
+                    $header_sum = count($scores[$key])-1;
+                    $header_total = array_sum($scores[$key]);
+                    $header_average = !empty($header_total)? round($header_total/$header_sum,2):'';
+
+                    $headers_scores[$key] = [
+                        'id' => $header->id,
+                        'header_sum' => $header_sum,
+                        'header_total' => $header_total,
+                        'header_average' => $header_average
+                    ];
                 }
 
                 $total_count = count($average_values);
@@ -325,7 +345,7 @@ class DeanReportsController extends Controller
 
                 $average = !empty($total_count)?round($total_sum/$total_count,2):'0';
 
-                return view('pages.reports.dean.rating', compact('detail','dean','average_details','average','headers'));
+                return view('pages.reports.dean.rating', compact('detail','dean','average_details','average','headers', 'headers_scores','scores'));
             }else{
 
             }

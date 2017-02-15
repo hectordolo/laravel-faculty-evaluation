@@ -35,4 +35,16 @@ class User extends Authenticatable
             ? $this->password
             : bcrypt($value);
     }
+
+    public function setLastNameAttribute($value){
+        $this->attributes['last_name'] = empty($value)
+            ? $this->last_name
+            : strtoupper($value);
+    }
+
+    public function setFirstNameAttribute($value){
+        $this->attributes['first_name'] = empty($value)
+            ? $this->last_name
+            : strtoupper($value);
+    }
 }

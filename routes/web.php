@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
+
     if(Auth::user()){
+
         $auth_user = Auth::user();
         return view('home',compact('auth_user'));
+
     }else{
         return view('welcome');
     }
@@ -134,4 +137,14 @@ Route::group(['prefix' => 'faculty_reports'], function () {
     Route::get('/details/{detail_id}/{faculty_id}', ['as' => 'faculty_reports.details','uses' => 'FacultyReportsController@details']);
     Route::get('/rating/{detail_id}/{faculty_id}', ['as' => 'faculty_reports.rating','uses' => 'FacultyReportsController@rating']);
     Route::delete('/destroy/{id}', ['as' => 'faculty_reports.destroy','uses' => 'FacultyReportsController@destroy']);
+});
+
+Route::group(['prefix' => 'has_roles'], function () {
+    Route::get('/edit/{id}', ['as' => 'has_roles.edit','uses' => 'HasRolesController@edit']);
+    Route::post('/patch/{user}', ['as' => 'has_roles.update','uses' => 'HasRolesController@update']);
+});
+
+Route::group(['prefix' => 'password'], function () {
+    Route::get('/edit', ['as' => 'password.edit','uses' => 'PasswordController@edit']);
+    Route::patch('/patch', ['as' => 'password.update','uses' => 'PasswordController@update']);
 });

@@ -89,4 +89,20 @@
             </div>
         </div>
     @endrole
+
+    @role('reports')
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Viewing Reports
+                </div>
+                <div class="panel-body">
+                    <p>Hello <strong>{{$auth_user->last_name.', '.$auth_user->first_name}}!</strong></p>
+                    <p>This is an application where you can view the reports of the different faculty and deans.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endrole
 @endsection

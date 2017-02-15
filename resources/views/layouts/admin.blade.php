@@ -71,6 +71,9 @@
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li>
+                    <a href="{{route('password.edit')}}"><i class="fa fa-key fa-fw"></i> Change Password</a>
+                </li>
+                <li>
                     <a href="{{ url('/logout') }}"
                        onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
@@ -174,8 +177,7 @@
         </div>
     </div>
 
-    @include('alert.success')
-    @include('alert.errorlist')
+    @include('flash::message')
 
     @yield('page-content')
 

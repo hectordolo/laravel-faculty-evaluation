@@ -6,7 +6,7 @@
 
 @section('page-header')
     {{$detail[0]['title']}}
-    <a href="{{ route('deans_reports.view',$dean->id) }}" type="button" class="btn btn-sm btn-success">Go Back</a>
+    <a href="{{ route('deans_reports.view',$dean->id) }}" type="button" class="btn btn-sm btn-success no-print">Go Back</a>
 @endsection
 
 @section('page-content')

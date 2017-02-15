@@ -6,7 +6,7 @@
 
 @section('page-header')
     {{$detail[0]['title']}}
-    <a href="{{ route('deans_reports.view',$dean->id) }}" type="button" class="btn btn-sm btn-success no-print">Go Back</a>
+    <a href="{{ route('deans_reports.view',$dean->id) }}" type="button" class="btn btn-sm btn-success no-print no-print">Go Back</a>
 @endsection
 
 @section('page-content')
@@ -14,9 +14,11 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-green">
+
                 <div class="panel-heading">
                     Average Rating Details
                 </div>
+
                 <div class="panel-body">
 
                     <div class="table-responsive">
@@ -51,8 +53,10 @@
                                     </tr>
                                 @endforeach
                                 <tr class="headings">
-                                    <th colspan="3"></th>
                                     <th>Over All Average Rating</th>
+                                        @for($i = 0 ; $i < count($headers_scores); $i++)
+                                            <th>{{isset($headers_scores[$i]['header_average'])? $headers_scores[$i]['header_average']:'---'}}</th>
+                                        @endfor
                                     <th>{{isset($average)?$average:''}}</th>
                                 </tr>
                             </tbody>
