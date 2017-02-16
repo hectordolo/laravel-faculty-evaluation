@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-header')
-    Home
+    <i class="fa fa-heart fa-xs"></i> Happy Hearts Month! {{$auth_user->first_name}}! <i class="fa fa-heart fa-xs"></i>
 @endsection
 
 @section('page-content')
@@ -18,8 +18,8 @@
                         SJC Faculty Evaluation
                     </div>
                     <div class="panel-body">
-                        <p>Hello <strong>{{$auth_user->last_name.', '.$auth_user->first_name}}!</strong></p>
                         <p>For us to be able to continue to provide you and other students quality education we would like you to give us honest feedback on how our faculty perform.</p>
+                        <p>Thank you for your time.</p>
                     </div>
                 </div>
             </div>
@@ -89,20 +89,19 @@
             </div>
         </div>
     @endrole
-
+    
     @role('reports')
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Viewing Reports
-                </div>
-                <div class="panel-body">
-                    <p>Hello <strong>{{$auth_user->last_name.', '.$auth_user->first_name}}!</strong></p>
-                    <p>This is an application where you can view the reports of the different faculty and deans.</p>
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        Viewing of Reports: Warning!
+                    </div>
+                    <div class="panel-body">
+                        <p>You have the access to the viewing the result of the evaluation of faculty and deans. All the reports and information are confidential please be guided.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endrole
 @endsection

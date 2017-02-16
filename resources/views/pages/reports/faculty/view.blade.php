@@ -96,8 +96,8 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{route('faculty_reports.rating', [1, $faculty->id])}}">
-                    <div class="panel-footer no-print">
+                <a href="{{route('faculty_reports.rating', [1, $faculty->id])}}" class="no-print">
+                    <div class="panel-footer">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>

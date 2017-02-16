@@ -96,13 +96,13 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{route('deans_reports.rating', [1, $dean->id])}}">
-                    <div class="panel-footer no-print">
+                <div class="panel-footer no-print">
+                    <a href="{{route('deans_reports.rating', [1, $dean->id])}}">
                         <span class="pull-left">View Details</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         </div>
 

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MigrateRecords;
+use App\Models\DepartmentHeads;
+use App\Models\GlobalVariables;
+
 use Auth;
 
 class HomeController extends Controller
@@ -25,6 +29,9 @@ class HomeController extends Controller
     public function index()
     {
         $auth_user = Auth::user();
+
+        $semester = GlobalVariables::where('name','semester')->first();
+        $school_year = GlobalVariables::where('name','school_year')->first();
 
         return view('home',compact('auth_user'));
     }
