@@ -164,7 +164,7 @@ class FacultyReportsController extends Controller
             }elseif($detail_id==2){
 
                 $detail[] = [
-                    'title' => 'List of Students not Done evaluating '. $faculty->last_name.', '. $faculty->first_name
+                    'title' => 'List of Students Done evaluating '. $faculty->last_name.', '. $faculty->first_name
                 ];
 
                 $students_raw = MigrateRecords::where('employee_code', $faculty->sjc_id)
@@ -204,7 +204,7 @@ class FacultyReportsController extends Controller
             }else{
 
                 $detail[] = [
-                    'title' => 'List of Students Done Evaluating  '. $faculty->last_name.', '. $faculty->first_name
+                    'title' => 'List of Students Not Done Evaluating  '. $faculty->last_name.', '. $faculty->first_name
                 ];
 
                 $students_raw = MigrateRecords::where('employee_code', $faculty->sjc_id)
