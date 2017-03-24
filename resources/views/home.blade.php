@@ -89,7 +89,7 @@
             </div>
         </div>
     @endrole
-    
+
     @role('reports')
         <div class="row">
             <div class="col-lg-5">

@@ -9,16 +9,17 @@
 @endsection
 
 @section('page-content')
-
-    <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right top_search">
-        {!! Form::open(['method' => 'GET', 'route' => 'deans_reports.search']) !!}
-        <div class="input-group">
-            {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search for...']) !!}
-            <span class="input-group-btn">
-                        {!! Form::button('Go!', ['class' => 'btn btn-default', 'type' => 'submit']) !!}
-                        </span>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12 form-group pull-right top_search">
+            {!! Form::open(['method' => 'GET', 'route' => 'deans_reports.search']) !!}
+            <div class="input-group">
+                {!! Form::text('search', null, ['class' => 'form-control', 'placeholder' => 'Search for...']) !!}
+                <span class="input-group-btn">
+                            {!! Form::button('Go!', ['class' => 'btn btn-default', 'type' => 'submit']) !!}
+                            </span>
+            </div>
+            {!! Form::close() !!}
         </div>
-        {!! Form::close() !!}
     </div>
     <div class="row">
         <div class="col-lg-12">

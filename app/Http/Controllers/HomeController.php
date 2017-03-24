@@ -33,6 +33,7 @@ class HomeController extends Controller
         $semester = GlobalVariables::where('name','semester')->first();
         $school_year = GlobalVariables::where('name','school_year')->first();
 
+
         return view('home',compact('auth_user'));
     }
 
